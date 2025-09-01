@@ -1,7 +1,7 @@
+
 import { motion } from "framer-motion";
 import { useRef } from "react";
 import clsx from "clsx";
-
 export default function NeonButton({ children, className, onClick, as = 'button', href }) {
   const ref = useRef(null);
   const handleClick = (e) => {
@@ -17,7 +17,7 @@ export default function NeonButton({ children, className, onClick, as = 'button'
     }
     onClick?.(e);
   };
-  const common = clsx("btn-neo inline-flex items-center rounded-2xl px-5 py-3 text-sm font-semibold tracking-wide transition will-change-transform", className);
+  const common = clsx("btn-neo inline-flex items-center px-4 py-2 text-sm font-semibold tracking-wide transition will-change-transform", className);
   if (as === 'a' && href) {
     return <motion.a ref={ref} href={href} whileHover={{ y: -1 }} whileTap={{ scale: 0.98 }} className={common} onClick={handleClick}>{children}</motion.a>;
   }

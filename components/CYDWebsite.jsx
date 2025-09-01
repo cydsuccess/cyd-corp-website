@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import Modal from "./Modal";
@@ -19,6 +20,8 @@ export default function CYDWebsite() {
   const [error, setError] = useState("");
   const [form, setForm] = useState({ name: "", contact: "", message: "" });
 
+  const logoUrl = process.env.NEXT_PUBLIC_LOGO_URL || "/cyd-icon.png";
+
   async function submitLead(e){
     e?.preventDefault();
     setSending(true); setError(""); setDone(false);
@@ -31,7 +34,7 @@ export default function CYDWebsite() {
       const data = await res.json();
       if (data.ok) {
         if (data.fallback && data.to) {
-          window.location.href = `mailto:${data.to}?subject=CYD Inquiry from ${encodeURIComponent(form.name)}&body=${encodeURIComponent(form.message + "\nContact: " + form.contact)}`;
+          window.location.href = `mailto:${data.to}?subject=CYD Inquiry from ${encodeURIComponent(form.name)}&body=${encodeURIComponent((form.message||'') + "\nContact: " + form.contact)}`;
         }
         setDone(true);
         setForm({ name: "", contact: "", message: "" });
@@ -56,14 +59,14 @@ export default function CYDWebsite() {
       <header className="sticky top-0 z-50 border-b border-white/5 bg-neutral-950/70 backdrop-blur">
         <Container className="flex h-16 items-center justify-between">
           <div className="flex items-center gap-3">
-            <img src="/cyd-icon.png" alt="CYD Icon" className="h-9 w-9 rounded-xl object-cover bg-white" />
+            <img src={logoUrl} alt="CYD Icon" className="h-9 w-9 rounded-xl object-cover bg-white" />
             <span className="hidden text-sm text-neutral-400 sm:block">AI Automation Agency</span>
           </div>
-          <nav className="hidden items-center gap-6 text-sm text-neutral-300 md:flex">
-            <a href="#services" className="hover:text-white">Services</a>
-            <a href="#how" className="hover:text-white">How it works</a>
-            <a href="#cases" className="hover:text-white">Case studies</a>
-            <a href="#about" className="hover:text-white">About</a>
+          <nav className="hidden items-center gap-2 md:flex">
+            <NeonButton as="a" href="#services" className="bg-transparent text-neutral-300 hover:text-white">{'Services'}</NeonButton>
+            <NeonButton as="a" href="#how" className="bg-transparent text-neutral-300 hover:text-white">{'How it works'}</NeonButton>
+            <NeonButton as="a" href="#cases" className="bg-transparent text-neutral-300 hover:text-white">{'Case studies'}</NeonButton>
+            <NeonButton as="a" href="#about" className="bg-transparent text-neutral-300 hover:text-white">{'About'}</NeonButton>
             <NeonButton className="bg-cyan-500/90 text-black" onClick={()=>setOpen(true)}>Work with us</NeonButton>
           </nav>
         </Container>
@@ -75,7 +78,7 @@ export default function CYDWebsite() {
         <Container className="relative grid gap-10 py-20 lg:grid-cols-2 lg:gap-16 lg:py-28">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
             <div className="mb-6 inline-flex items-center gap-4">
-              <img src="/cyd-icon.png" alt="CYD" className="h-12 w-12 rounded-2xl border border-cyan-400/30 bg-white/5 object-cover" />
+              <img src={logoUrl} alt="CYD" className="h-12 w-12 rounded-2xl border border-cyan-400/30 bg-white/5 object-cover" />
               <div className="h-8 w-px bg-white/10" />
               <p className="text-sm font-semibold tracking-widest text-cyan-300">CHASE YOUR DREAMS</p>
             </div>
@@ -126,18 +129,6 @@ export default function CYDWebsite() {
               </div>
             </div>
           </motion.div>
-        </Container>
-      </section>
-
-      {/* TRUST */}
-      <section className="border-y border-white/5 bg-neutral-950/60 py-10">
-        <Container>
-          <p className="mb-6 text-center text-xs uppercase tracking-widest text-neutral-400">Inspired by leaders • Privacy-first • Human-in-the-loop</p>
-          <div className="grid grid-cols-2 place-items-center gap-6 opacity-70 sm:grid-cols-3 md:grid-cols-6">
-            {["CoLab", "Jamie", "Robin Radar", "n8n", "OpenAI", "Slack"].map((brand) => (
-              <div key={brand} className="text-sm font-semibold text-neutral-400">{brand}</div>
-            ))}
-          </div>
         </Container>
       </section>
 
@@ -194,7 +185,7 @@ export default function CYDWebsite() {
       {/* CASE STUDIES */}
       <section id="cases" className="py-20">
         <Container>
-          <div className="mb-10 flex items-end justify_between">
+          <div className="mb-10 flex items-end justify-between">
             <h2 className="text-3xl font-black md:text-4xl">Case studies</h2>
             <NeonButton as="a" href="#contact" className="text-cyan-300 border border-cyan-400/30 bg-white/5">Share yours →</NeonButton>
           </div>
@@ -261,7 +252,7 @@ export default function CYDWebsite() {
               <a href="mailto:cydsuccess@gmail.com" className="text-cyan-300 underline">cydsuccess@gmail.com</a>
             </p>
             <form className="mt-8 grid gap-4 text-left" onSubmit={submitLead}>
-              <input className="rounded-2xl border border-white/10 bg_white/5 px-4 py-3 text-sm outline-none placeholder:text-neutral-500 focus:border-cyan-400/50"
+              <input className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none placeholder:text-neutral-500 focus:border-cyan-400/50"
                 placeholder="Your name" required value={form.name} onChange={e=>setForm({...form, name: e.target.value})}/>
               <input className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none placeholder:text-neutral-500 focus:border-cyan-400/50"
                 placeholder="Email or Telegram" required value={form.contact} onChange={e=>setForm({...form, contact: e.target.value})}/>
@@ -282,14 +273,14 @@ export default function CYDWebsite() {
       <footer className="border-t border-white/5 py-10">
         <Container className="flex flex-col items-center justify-between gap-6 text-sm text-neutral-400 md:flex-row">
           <div className="flex items-center gap-3">
-            <img src="/cyd-icon.png" alt="CYD" className="h-8 w-8 rounded-lg object-cover bg-white" />
+            <img src={logoUrl} alt="CYD" className="h-8 w-8 rounded-lg object-cover bg-white" />
             <span>© {new Date().getFullYear()} CYD Corp – Chase Your Dreams</span>
           </div>
-          <div className="flex items-center gap-5">
-            <a href="#services" className="hover:text-white">Services</a>
-            <a href="#how" className="hover:text-white">Process</a>
-            <a href="#cases" className="hover:text-white">Case studies</a>
-            <a href="#contact" className="hover:text-white">Contact</a>
+          <div className="flex items-center gap-2">
+            <NeonButton as="a" href="#services" className="bg-transparent text-neutral-300 hover:text-white">Services</NeonButton>
+            <NeonButton as="a" href="#how" className="bg-transparent text-neutral-300 hover:text-white">Process</NeonButton>
+            <NeonButton as="a" href="#cases" className="bg-transparent text-neutral-300 hover:text-white">Case studies</NeonButton>
+            <NeonButton as="a" href="#contact" className="bg-transparent text-neutral-300 hover:text-white">Contact</NeonButton>
           </div>
         </Container>
       </footer>
