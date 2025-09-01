@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360">
+  <rect width="640" height="360" fill="#0a0a0a"/>
+  <rect x="40" y="40" width="560" height="280" rx="16" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="2"/>
+  <g fill="none" stroke="#22d3ee" stroke-width="2">
+    <rect x="100" y="100" width="440" height="160" rx="16"/>
+    <path d="M100 110 L320 190 L540 110" />
+  </g>
+  <g>
+    <circle cx="320" cy="190" r="6" fill="#22d3ee"/>
+    <rect x="140" y="128" width="180" height="12" rx="6" fill="#22d3ee" opacity="0.4"/>
+    <rect x="140" y="146" width="280" height="12" rx="6" fill="#22d3ee" opacity="0.25"/>
+  </g>
+  <text x="60" y="310" fill="#9ca3af" font-family="Inter,Arial" font-size="14">AI Email Assistant (Preview)</text>
+</svg>
