@@ -1,4 +1,3 @@
-
 import { motion } from "framer-motion";
 export default function TechBackground({ className = "" }) {
   return (
@@ -25,7 +24,7 @@ export default function TechBackground({ className = "" }) {
       </svg>
       {[...Array(24)].map((_, i) => (
         <motion.div key={i} className="absolute h-1 w-1 rounded-full"
-          style={{ background: 'rgba(34,211,238,0.7)', left: `${(i*37)%100}%`, top: `${(i*17)%100}%` }}
+          style={{ background: 'rgba(34,211,238,0.7)', left: `${(i*37)%100}%`, top: `${((i*17)+7)%100}%` }}
           animate={{ y: [0, -6, 0], opacity: [0.2, 0.7, 0.2] }}
           transition={{ duration: 4 + (i%5), repeat: Infinity, delay: i*0.1 }}
         />

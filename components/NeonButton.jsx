@@ -1,8 +1,8 @@
-
 import { motion } from "framer-motion";
 import { useRef } from "react";
 import clsx from "clsx";
-export default function NeonButton({ children, className, onClick, as = 'button', href }) {
+
+export default function NeonButton({ children, className, onClick, as = 'button', href, type='button' }) {
   const ref = useRef(null);
   const handleClick = (e) => {
     const el = ref.current;
@@ -21,5 +21,5 @@ export default function NeonButton({ children, className, onClick, as = 'button'
   if (as === 'a' && href) {
     return <motion.a ref={ref} href={href} whileHover={{ y: -1 }} whileTap={{ scale: 0.98 }} className={common} onClick={handleClick}>{children}</motion.a>;
   }
-  return <motion.button ref={ref} type="button" whileHover={{ y: -1 }} whileTap={{ scale: 0.98 }} className={common} onClick={handleClick}>{children}</motion.button>;
+  return <motion.button ref={ref} type={type} whileHover={{ y: -1 }} whileTap={{ scale: 0.98 }} className={common} onClick={handleClick}>{children}</motion.button>;
 }

@@ -1,9 +1,10 @@
-
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import Modal from "./Modal";
 import NeonButton from "./NeonButton";
+import NeonLink from "./NeonLink";
 import TechBackground from "./TechBackground";
+import Toast from "./Toast";
 
 const Container = ({ children, className = "" }) => (
   <div className={`mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 ${className}`}>{children}</div>
@@ -19,17 +20,22 @@ export default function CYDWebsite() {
   const [done, setDone] = useState(false);
   const [error, setError] = useState("");
   const [form, setForm] = useState({ name: "", contact: "", message: "" });
+  const [toast, setToast] = useState({ open: false, kind: "success", text: "" });
 
   const logoUrl = process.env.NEXT_PUBLIC_LOGO_URL || "/cyd-icon.png";
 
   async function submitLead(e){
     e?.preventDefault();
     setSending(true); setError(""); setDone(false);
+
+    // Optimistic toast
+    setToast({ open: true, kind: "success", text: "You're all set! We'll contact you ASAP 🚀" });
+
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ name: form.name, contact: form.contact, message: form.message }),
       });
       const data = await res.json();
       if (data.ok) {
@@ -39,13 +45,13 @@ export default function CYDWebsite() {
         setDone(true);
         setForm({ name: "", contact: "", message: "" });
       } else {
+        setToast({ open: true, kind: "error", text: data.error || "Failed to send" });
         setError(data.error || "Failed to send");
       }
     } catch (e) {
+      setToast({ open: true, kind: "error", text: "Network error — try again" });
       setError("Failed to send");
-    } finally {
-      setSending(false);
-    }
+    } finally { setSending(false); }
   }
 
   const fadeIn = { hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0, transition: { duration: 0.5 } } };
@@ -53,7 +59,8 @@ export default function CYDWebsite() {
   return (
     <div className="min-h-screen scroll-smooth bg-neutral-950 text-neutral-100 antialiased relative">
       <TechBackground />
-      <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(30,58,138,0.25),transparent_60%),radial-gradient(ellipse_at_bottom,_rgba(6,182,212,0.2),transparent_60%)]" aria-hidden />
+      <Toast open={toast.open} kind={toast.kind} text={toast.text} onClose={()=>setToast(s=>({...s, open:false}))} />
+      <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(30,58,138,0.22),transparent_60%),radial-gradient(ellipse_at_bottom,_rgba(6,182,212,0.18),transparent_60%)]" aria-hidden />
 
       {/* NAVBAR */}
       <header className="sticky top-0 z-50 border-b border-white/5 bg-neutral-950/70 backdrop-blur">
@@ -63,10 +70,10 @@ export default function CYDWebsite() {
             <span className="hidden text-sm text-neutral-400 sm:block">AI Automation Agency</span>
           </div>
           <nav className="hidden items-center gap-2 md:flex">
-            <NeonButton as="a" href="#services" className="bg-transparent text-neutral-300 hover:text-white">{'Services'}</NeonButton>
-            <NeonButton as="a" href="#how" className="bg-transparent text-neutral-300 hover:text-white">{'How it works'}</NeonButton>
-            <NeonButton as="a" href="#cases" className="bg-transparent text-neutral-300 hover:text-white">{'Case studies'}</NeonButton>
-            <NeonButton as="a" href="#about" className="bg-transparent text-neutral-300 hover:text-white">{'About'}</NeonButton>
+            <NeonLink href="#services">Services</NeonLink>
+            <NeonLink href="#how">How it works</NeonLink>
+            <NeonLink href="#cases">Case studies</NeonLink>
+            <NeonLink href="#about">About</NeonLink>
             <NeonButton className="bg-cyan-500/90 text-black" onClick={()=>setOpen(true)}>Work with us</NeonButton>
           </nav>
         </Container>
@@ -96,7 +103,7 @@ export default function CYDWebsite() {
           </motion.div>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.1 }} className="relative">
-            <div className="rounded-3xl border border-white/10 bg-white/5 p-4 shadow-2xl animate-glowpulse">
+            <div className="rounded-3xl border border-white/10 bg-white/5 p-4 shadow-2xl">
               <div className="rounded-2xl border border-white/10 bg-neutral-900 p-6">
                 <div className="mb-4 flex items-center justify-between">
                   <div className="text-sm font-semibold text-neutral-300">Automation Overview</div>
@@ -259,7 +266,7 @@ export default function CYDWebsite() {
               <textarea className="min-h-[120px] rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none placeholder:text-neutral-500 focus:border-cyan-400/50"
                 placeholder="What do you want to automate?" value={form.message} onChange={e=>setForm({...form, message: e.target.value})}/>
               <div className="flex items-center justify-center gap-3">
-                <NeonButton className="bg-cyan-500/90 text-black">{sending ? "Sending..." : "Send request"}</NeonButton>
+                <NeonButton className="bg-cyan-500/90 text-black" type="submit">{sending ? "Sending..." : "Send request"}</NeonButton>
                 <NeonButton as="a" href="#hero" className="border border-cyan-400/30 bg-white/5 text-cyan-200/90">Back to top</NeonButton>
               </div>
               {done && <p className="text-sm text-green-400">Thanks! We received your request.</p>}
@@ -277,10 +284,10 @@ export default function CYDWebsite() {
             <span>© {new Date().getFullYear()} CYD Corp – Chase Your Dreams</span>
           </div>
           <div className="flex items-center gap-2">
-            <NeonButton as="a" href="#services" className="bg-transparent text-neutral-300 hover:text-white">Services</NeonButton>
-            <NeonButton as="a" href="#how" className="bg-transparent text-neutral-300 hover:text-white">Process</NeonButton>
-            <NeonButton as="a" href="#cases" className="bg-transparent text-neutral-300 hover:text-white">Case studies</NeonButton>
-            <NeonButton as="a" href="#contact" className="bg-transparent text-neutral-300 hover:text-white">Contact</NeonButton>
+            <NeonLink href="#services">Services</NeonLink>
+            <NeonLink href="#how">Process</NeonLink>
+            <NeonLink href="#cases">Case studies</NeonLink>
+            <NeonLink href="#contact">Contact</NeonLink>
           </div>
         </Container>
       </footer>
@@ -295,7 +302,7 @@ export default function CYDWebsite() {
           <textarea className="min-h-[90px] rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none placeholder:text-neutral-500 focus:border-cyan-400/50"
             placeholder="What do you want to automate? (optional)" value={form.message} onChange={e=>setForm({...form, message: e.target.value})}/>
           <div className="flex items-center gap-3">
-            <NeonButton className="bg-cyan-500/90 text-black" >{sending ? "Sending..." : "Submit"}</NeonButton>
+            <NeonButton className="bg-cyan-500/90 text-black" type="submit">{sending ? "Sending..." : "Submit"}</NeonButton>
             {done && <span className="text-green-400 text-sm">Sent!</span>}
             {error && <span className="text-red-400 text-sm">{error}</span>}
           </div>

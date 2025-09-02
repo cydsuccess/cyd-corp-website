@@ -1,12 +1,13 @@
-
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect } from "react";
+
 export default function Modal({ open, onClose, children, title = "Work with us" }) {
   useEffect(() => {
     const onEsc = (e) => e.key === "Escape" && onClose?.();
     if (open) window.addEventListener("keydown", onEsc);
     return () => window.removeEventListener("keydown", onEsc);
   }, [open, onClose]);
+
   return (
     <AnimatePresence>
       {open && (
