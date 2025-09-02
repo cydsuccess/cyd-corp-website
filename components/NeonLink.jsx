@@ -1,16 +1,21 @@
+// components/NeonLink.jsx
 import { motion } from "framer-motion";
-import clsx from "clsx";
+import Link from "next/link";
 
-export default function NeonLink({ href, children, className }) {
+export default function NeonLink({ href, children }) {
   return (
-    <motion.a
-      href={href}
-      className={clsx("link-underline inline-flex items-center px-2 py-1 text-sm text-neutral-300 hover:text-white transition", className)}
-      whileHover={{ y: -1 }}
-      whileTap={{ scale: 0.98 }}
-      transition={{ type: "spring", stiffness: 420, damping: 28 }}
-    >
-      {children}
-    </motion.a>
+    <Link href={href} passHref>
+      <motion.a
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        className="relative text-neutral-300 hover:text-white px-1"
+      >
+        {children}
+        <motion.span
+          layoutId="underline"
+          className="absolute left-0 -bottom-1 h-[2px] w-full bg-cyan-400 rounded-full"
+        />
+      </motion.a>
+    </Link>
   );
 }

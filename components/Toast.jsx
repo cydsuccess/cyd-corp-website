@@ -1,18 +1,16 @@
+// components/Toast.jsx
 import { useEffect } from "react";
 
-export default function Toast({ kind = "success", text = "", open, onClose }) {
+export default function Toast({ message, type = "success", onClose }) {
   useEffect(() => {
-    if (!open) return;
-    const t = setTimeout(() => onClose?.(), 2800);
-    return () => clearTimeout(t);
-  }, [open, onClose]);
-  if (!open) return null;
+    const timer = setTimeout(() => onClose(), 3000);
+    return () => clearTimeout(timer);
+  }, [onClose]);
+
   return (
-    <div className={`toast ${kind === "success" ? "toast-success" : "toast-error"}`}>
-      <div className="flex items-center gap-2">
-        <span className={`h-2 w-2 rounded-full ${kind === "success" ? "bg-cyan-400" : "bg-red-400"} toast-ring`} />
-        <span>{text}</span>
-      </div>
+    <div className={`fixed bottom-6 right-6 px-6 py-3 rounded-xl shadow-lg text-white
+      ${type === "success" ? "bg-cyan-500" : "bg-red-500"}`}>
+      {message}
     </div>
   );
 }
