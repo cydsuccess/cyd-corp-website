@@ -15,7 +15,7 @@ export default function Document() {
   <meta name="theme-color" content="#0A0F1C" />
 
   {/* --- FAVICONS & PWA ICONS (canonical set) --- */}
-  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" href="/favicon.ico?v=6" sizes="any" />
   <link rel="icon" type="image/svg+xml" href="/icon.svg" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="manifest" href="/site.webmanifest" />
