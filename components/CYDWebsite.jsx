@@ -2,6 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import Modal from "./Modal";
 import FormspreeForm from "./FormspreeForm";
+import NavLink from "./NavLink";
 
 // --- Helper components ---
 const Container = ({ children, className = "" }) => (
@@ -13,7 +14,7 @@ const Glow = ({ className = "" }) => (
 );
 
 const PrimaryButton = ({ children, href, onClick }) => {
-  const cls = "inline-flex items-center rounded-2xl bg-cyan-500/90 px-5 py-3 text-sm font-semibold tracking-wide text-black shadow-lg transition hover:translate-y-[-1px] hover:bg-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-300";
+  const cls = "inline-flex items-center rounded-2xl bg-cyan-500/90 px-5 py-3 text-sm font-semibold tracking-wide text-black shadow-lg transition hover:translate-y-[-1px] hover:bg-cyan-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/70";
   if (onClick) {
     return <button onClick={onClick} className={cls}>{children}</button>;
   }
@@ -35,6 +36,14 @@ const SecondaryButton = ({ children, href = "#how" }) => (
 
 export default function CYDWebsite() {
   const [open, setOpen] = React.useState(false);
+  const [scrolled, setScrolled] = React.useState(false);
+
+  React.useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 6);
+    onScroll();
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
     <div className="min-h-screen scroll-smooth bg-neutral-950 text-neutral-100 antialiased">
@@ -45,18 +54,18 @@ export default function CYDWebsite() {
       />
 
       {/* NAVBAR */}
-      <header className="sticky top-0 z-50 border-b border-white/5 bg-neutral-950/70 backdrop-blur">
+      <header className={`sticky top-0 z-50 border-b border-white/5 bg-neutral-950/70 backdrop-blur transition-shadow ${scrolled ? "shadow-[0_10px_30px_-10px_rgba(0,0,0,0.6)]" : ""}`}>
         <Container className="flex h-16 items-center justify-between">
           <div className="flex items-center gap-3">
             {/* Symbol-only logo */}
             <img src="/cyd-icon.png" alt="CYD" className="h-9 w-9 rounded-xl bg-white p-1 shadow-inner shadow-cyan-400/40" />
             <span className="hidden text-sm text-neutral-400 sm:block">AI Automation Agency</span>
           </div>
-          <nav className="hidden items-center gap-6 text-sm text-neutral-300 md:flex">
-            <a href="#services" className="hover:text-white">Services</a>
-            <a href="#how" className="hover:text-white">How it works</a>
-            <a href="#cases" className="hover:text-white">Case studies</a>
-            <a href="#about" className="hover:text-white">About</a>
+          <nav className="hidden items-center gap-6 md:flex">
+            <NavLink href="#services">Services</NavLink>
+            <NavLink href="#how">How it works</NavLink>
+            <NavLink href="#cases">Case studies</NavLink>
+            <NavLink href="#about">About</NavLink>
             <PrimaryButton onClick={() => setOpen(true)}>Work with us</PrimaryButton>
           </nav>
         </Container>
@@ -65,6 +74,15 @@ export default function CYDWebsite() {
       {/* HERO */}
       <section id="hero" className="relative overflow-hidden">
         <Glow className="bg-cyan-500/10" />
+
+        {/* Hero floating accent */}
+        <motion.div
+          aria-hidden
+          className="pointer-events-none absolute -right-20 -top-10 h-72 w-72 rounded-full bg-cyan-500/10 blur-3xl"
+          animate={{ y: [0, -8, 0], x: [0, 6, 0] }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+        />
+
         <Container className="relative grid gap-10 py-20 lg:grid-cols-2 lg:gap-16 lg:py-28">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
             {/* Full-text logo */}
@@ -175,22 +193,28 @@ export default function CYDWebsite() {
         </Container>
       </section>
 
-      {/* CASE STUDIES */}
+      {/* CASE STUDIES — restored SVG images */}
       <section id="cases" className="py-20">
         <Container>
           <div className="mb-10 flex items-end justify-between">
             <h2 className="text-3xl font-black md:text-4xl">Case studies</h2>
             <a href="#contact" className="text-sm text-cyan-300 hover:underline">Share yours →</a>
           </div>
+
           <div className="grid gap-6 md:grid-cols-3">
-            {["Automated social posts", "Lead gen chatbot", "AI email assistant"].map((title) => (
-              <div key={title} className="group overflow-hidden rounded-3xl border border-white/10 bg-white/5">
-                <div className="h-40 bg-gradient-to-br from-cyan-400/30 to-sky-500/20" />
+            {[
+              { title: "Automated social posts", img: "/case-social.svg" },
+              { title: "Lead gen chatbot", img: "/case-chatbot.svg" },
+              { title: "AI email assistant", img: "/case-email.svg" },
+            ].map((c) => (
+              <a key={c.title} href="#contact" className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5">
+                <img src={c.img} alt={c.title} className="h-44 w-full object-cover opacity-95 transition group-hover:opacity-100" />
+                <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/40 to-transparent" />
                 <div className="p-6">
-                  <h3 className="text-lg font-semibold">{title}</h3>
+                  <h3 className="text-lg font-semibold">{c.title}</h3>
                   <p className="mt-1 text-sm text-neutral-300">Outcome-focused write‑up coming soon.</p>
                 </div>
-              </div>
+              </a>
             ))}
           </div>
         </Container>
@@ -249,7 +273,8 @@ export default function CYDWebsite() {
             <img src="/cyd-icon.png" alt="CYD" className="h-8 w-8 rounded-lg bg-white p-1" />
             <span>© {new Date().getFullYear()} CYD Corp – Chase Your Dreams</span>
           </div>
-          <div className="flex items-center gap-5">
+          <div className="flex flex-wrap items-center gap-5">
+            <a href="mailto:cydsuccess@gmail.com" className="hover:text-white">cydsuccess@gmail.com</a>
             <a href="#services" className="hover:text-white">Services</a>
             <a href="#how" className="hover:text-white">Process</a>
             <a href="#cases" className="hover:text-white">Case studies</a>
@@ -258,12 +283,13 @@ export default function CYDWebsite() {
         </Container>
       </footer>
 
-      {/* Work with us Modal */}
+      {/* Work with us Modal (now includes message field) */}
       <Modal open={open} onClose={() => setOpen(false)} title="Work with us">
         <p className="text-sm text-neutral-300">
           Drop your details and we’ll get back within 24 hours.
         </p>
-        <FormspreeForm endpoint="https://formspree.io/f/mdklwpon" compact />
+        {/* Use full form (not compact) so it includes "What do you want to automate?" */}
+        <FormspreeForm endpoint="https://formspree.io/f/mdklwpon" />
       </Modal>
     </div>
   );
