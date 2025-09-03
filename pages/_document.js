@@ -10,31 +10,34 @@ export default function Document() {
 
   return (
     <Html lang="en" className="bg-neutral-950">
-      <Head>
-        {/* Favicons */}
-        <link rel="icon" href="/favicon.png" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+     <Head>
+  {/* Basic SEO (keep your own values) */}
+  <meta name="theme-color" content="#0A0F1C" />
 
-        {/* Basic SEO */}
-        <meta name="description" content={desc} />
-        <meta name="theme-color" content="#06b6d4" />
+  {/* --- FAVICONS & PWA ICONS (canonical set) --- */}
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <link rel="shortcut icon" href="/favicon-32x32.png" />
 
-        {/* Open Graph */}
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content={url} />
-        <meta property="og:title" content={title} />
-        <meta property="og:description" content={desc} />
-        <meta property="og:image" content={img} />
+  {/* Social preview (adjust to your actual preview image if you have one) */}
+  {/* Open Graph */}
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="CYD Corp — AI Automation Agency" />
+  <meta property="og:description" content="We design, build, and maintain AI automations." />
+  <meta property="og:url" content="https://cyd-corp.com" />
+  <meta property="og:image" content="https://cyd-corp.com/og.jpg" />
+  <meta property="og:image:type" content="image/jpeg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
 
-        {/* Twitter */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={title} />
-        <meta name="twitter:description" content={desc} />
-        <meta name="twitter:image" content={img} />
-
-        {/* Preload icon for snappy header render */}
-        <link rel="preload" href="/cyd-icon.png" as="image" />
-      </Head>
+  {/* Twitter */}
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="CYD Corp — AI Automation Agency" />
+  <meta name="twitter:description" content="We design, build, and maintain AI automations." />
+  <meta name="twitter:image" content="https://cyd-corp.com/og.jpg" />
+</Head>
       <body className="bg-neutral-950">
         <Main />
         <NextScript />
