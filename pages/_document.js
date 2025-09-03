@@ -15,11 +15,11 @@ export default function Document() {
   <meta name="theme-color" content="#0A0F1C" />
 
   {/* --- FAVICONS & PWA ICONS (canonical set) --- */}
-  <link rel="icon" href="/favicon.ico?v=6" sizes="any" />
-  <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+  <link rel="icon" type="image/svg+xml" href="/icon.svg?v=6" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="manifest" href="/site.webmanifest" />
   <link rel="shortcut icon" href="/favicon-32x32.png" />
+
 
   {/* Social preview (adjust to your actual preview image if you have one) */}
   {/* Open Graph */}
