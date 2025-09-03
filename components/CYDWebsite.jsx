@@ -1,11 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import Modal from "./Modal";
-import NeonButton from "./NeonButton";
-import NeonLink from "./NeonLink";
-import TechBackground from "./TechBackground";
-import Toast from "./Toast";
+import FormspreeForm from "./FormspreeForm";
 
+// --- Helper components ---
 const Container = ({ children, className = "" }) => (
   <div className={`mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 ${className}`}>{children}</div>
 );
@@ -14,67 +12,52 @@ const Glow = ({ className = "" }) => (
   <div className={`pointer-events-none absolute inset-0 opacity-40 blur-3xl ${className}`} />
 );
 
-export default function CYDWebsite() {
-  const [open, setOpen] = useState(false);
-  const [sending, setSending] = useState(false);
-  const [done, setDone] = useState(false);
-  const [error, setError] = useState("");
-  const [form, setForm] = useState({ name: "", contact: "", message: "" });
-  const [toast, setToast] = useState({ open: false, kind: "success", text: "" });
-
-  const logoUrl = process.env.NEXT_PUBLIC_LOGO_URL || "/cyd-icon.png";
-
-  async function submitLead(e){
-    e?.preventDefault();
-    setSending(true); setError(""); setDone(false);
-
-    // Optimistic toast
-    setToast({ open: true, kind: "success", text: "You're all set! We'll contact you ASAP 🚀" });
-
-    try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: form.name, contact: form.contact, message: form.message }),
-      });
-      const data = await res.json();
-      if (data.ok) {
-        if (data.fallback && data.to) {
-          window.location.href = `mailto:${data.to}?subject=CYD Inquiry from ${encodeURIComponent(form.name)}&body=${encodeURIComponent((form.message||'') + "\nContact: " + form.contact)}`;
-        }
-        setDone(true);
-        setForm({ name: "", contact: "", message: "" });
-      } else {
-        setToast({ open: true, kind: "error", text: data.error || "Failed to send" });
-        setError(data.error || "Failed to send");
-      }
-    } catch (e) {
-      setToast({ open: true, kind: "error", text: "Network error — try again" });
-      setError("Failed to send");
-    } finally { setSending(false); }
+const PrimaryButton = ({ children, href, onClick }) => {
+  const cls = "inline-flex items-center rounded-2xl bg-cyan-500/90 px-5 py-3 text-sm font-semibold tracking-wide text-black shadow-lg transition hover:translate-y-[-1px] hover:bg-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-300";
+  if (onClick) {
+    return <button onClick={onClick} className={cls}>{children}</button>;
   }
+  return (
+    <a href={href || "#contact"} className={cls}>
+      {children}
+    </a>
+  );
+};
 
-  const fadeIn = { hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0, transition: { duration: 0.5 } } };
+const SecondaryButton = ({ children, href = "#how" }) => (
+  <a
+    href={href}
+    className="inline-flex items-center rounded-2xl border border-cyan-400/30 bg-white/5 px-5 py-3 text-sm font-semibold tracking-wide text-cyan-200/90 backdrop-blur transition hover:bg-white/10"
+  >
+    {children}
+  </a>
+);
+
+export default function CYDWebsite() {
+  const [open, setOpen] = React.useState(false);
 
   return (
-    <div className="min-h-screen scroll-smooth bg-neutral-950 text-neutral-100 antialiased relative">
-      <TechBackground />
-      <Toast open={toast.open} kind={toast.kind} text={toast.text} onClose={()=>setToast(s=>({...s, open:false}))} />
-      <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(30,58,138,0.22),transparent_60%),radial-gradient(ellipse_at_bottom,_rgba(6,182,212,0.18),transparent_60%)]" aria-hidden />
+    <div className="min-h-screen scroll-smooth bg-neutral-950 text-neutral-100 antialiased">
+      {/* Soft grid background */}
+      <div
+        className="pointer-events-none fixed inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(30,58,138,0.35),transparent_60%),radial-gradient(ellipse_at_bottom,_rgba(6,182,212,0.25),transparent_60%)]"
+        aria-hidden
+      />
 
       {/* NAVBAR */}
       <header className="sticky top-0 z-50 border-b border-white/5 bg-neutral-950/70 backdrop-blur">
         <Container className="flex h-16 items-center justify-between">
           <div className="flex items-center gap-3">
-            <img src={logoUrl} alt="CYD Icon" className="h-9 w-9 rounded-xl object-cover bg-white" />
+            {/* Symbol-only logo */}
+            <img src="/cyd-icon.png" alt="CYD" className="h-9 w-9 rounded-xl bg-white p-1 shadow-inner shadow-cyan-400/40" />
             <span className="hidden text-sm text-neutral-400 sm:block">AI Automation Agency</span>
           </div>
-          <nav className="hidden items-center gap-2 md:flex">
-            <NeonLink href="#services">Services</NeonLink>
-            <NeonLink href="#how">How it works</NeonLink>
-            <NeonLink href="#cases">Case studies</NeonLink>
-            <NeonLink href="#about">About</NeonLink>
-            <NeonButton className="bg-cyan-500/90 text-black" onClick={()=>setOpen(true)}>Work with us</NeonButton>
+          <nav className="hidden items-center gap-6 text-sm text-neutral-300 md:flex">
+            <a href="#services" className="hover:text-white">Services</a>
+            <a href="#how" className="hover:text-white">How it works</a>
+            <a href="#cases" className="hover:text-white">Case studies</a>
+            <a href="#about" className="hover:text-white">About</a>
+            <PrimaryButton onClick={() => setOpen(true)}>Work with us</PrimaryButton>
           </nav>
         </Container>
       </header>
@@ -84,8 +67,9 @@ export default function CYDWebsite() {
         <Glow className="bg-cyan-500/10" />
         <Container className="relative grid gap-10 py-20 lg:grid-cols-2 lg:gap-16 lg:py-28">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+            {/* Full-text logo */}
             <div className="mb-6 inline-flex items-center gap-4">
-              <img src={logoUrl} alt="CYD" className="h-12 w-12 rounded-2xl border border-cyan-400/30 bg-white/5 object-cover" />
+              <img src="/cyd-icon.png" alt="CYD" className="h-12 w-12 rounded-2xl border border-cyan-400/30 bg-white/5 p-1" />
               <div className="h-8 w-px bg-white/10" />
               <p className="text-sm font-semibold tracking-widest text-cyan-300">CHASE YOUR DREAMS</p>
             </div>
@@ -96,13 +80,19 @@ export default function CYDWebsite() {
               CYD Corp designs, builds, and maintains automation that saves time and unlocks growth: chatbots, ops workflows, and data pipelines—powered by n8n and cutting-edge AI.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-4">
-              <NeonButton className="bg-cyan-500/90 text-black" onClick={()=>setOpen(true)}>{sending ? "Submitting..." : "Get a free audit"}</NeonButton>
-              <NeonButton as="a" href="#services" className="border border-cyan-400/30 bg-white/5 text-cyan-200/90">See services</NeonButton>
+              <PrimaryButton onClick={() => setOpen(true)}>Get a free audit</PrimaryButton>
+              <SecondaryButton href="#services">See services</SecondaryButton>
             </div>
             <p className="mt-4 text-xs uppercase tracking-widest text-neutral-400">Knowledge + Experience = CYD Foundation</p>
           </motion.div>
 
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.1 }} className="relative">
+          {/* Demo panel */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.1 }}
+            className="relative"
+          >
             <div className="rounded-3xl border border-white/10 bg-white/5 p-4 shadow-2xl">
               <div className="rounded-2xl border border-white/10 bg-neutral-900 p-6">
                 <div className="mb-4 flex items-center justify-between">
@@ -110,15 +100,14 @@ export default function CYDWebsite() {
                   <div className="text-xs text-neutral-400">n8n • OpenAI • Slack • Notion</div>
                 </div>
                 <div className="grid gap-4 md:grid-cols-3">
-                  {["Leads → CRM", "Support Bot", "Daily Reports"].map((label, i) => (
-                    <motion.div key={label} variants={fadeIn} initial="hidden" whileInView="show" viewport={{ once: true }}
-                      className="rounded-xl border border-white/10 bg-neutral-800/60 p-4">
+                  {["Leads → CRM", "Support Bot", "Daily Reports"].map((label) => (
+                    <div key={label} className="rounded-xl border border-white/10 bg-neutral-800/60 p-4">
                       <div className="text-xs text-neutral-400">Workflow</div>
                       <div className="text-sm font-semibold">{label}</div>
                       <div className="mt-3 h-2 w-full rounded bg-neutral-700">
-                        <div className="h-2 rounded bg-cyan-400/80" style={{ width: `${70 + i*8}%` }} />
+                        <div className="h-2 rounded bg-cyan-400/80" style={{ width: `${Math.floor(Math.random() * 40) + 60}%` }} />
                       </div>
-                    </motion.div>
+                    </div>
                   ))}
                 </div>
                 <div className="mt-6 grid gap-4 md:grid-cols-2">
@@ -144,7 +133,7 @@ export default function CYDWebsite() {
         <Container>
           <div className="mb-10 flex items-end justify-between gap-6">
             <h2 className="text-3xl font-black md:text-4xl">What we build</h2>
-            <NeonButton as="a" href="#contact" className="text-cyan-300 border border-cyan-400/30 bg-white/5">Need something custom?</NeonButton>
+            <a href="#contact" className="text-sm text-cyan-300 hover:underline">Need something custom?</a>
           </div>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {[
@@ -155,13 +144,12 @@ export default function CYDWebsite() {
               { title: "Custom Integrations", desc: "When Zapier can’t: build robust API bridges & microservices.", tag: "TypeScript / Python" },
               { title: "Automation Care Plan", desc: "Monitoring, error handling, and iterative optimization.", tag: "SLA" },
             ].map((c) => (
-              <motion.div key={c.title} variants={fadeIn} initial="hidden" whileInView="show" viewport={{ once: true, margin: "-80px" }}
-                className="group relative rounded-3xl border border-white/10 bg-white/5 p-6 transition hover:border-cyan-400/40 hover:bg-white/10">
+              <div key={c.title} className="group relative rounded-3xl border border-white/10 bg-white/5 p-6 transition hover:border-cyan-400/40 hover:bg-white/10">
                 <div className="absolute inset-0 -z-10 rounded-3xl opacity-0 blur-2xl transition group-hover:opacity-40" style={{ background: "radial-gradient(circle at 30% 20%, rgba(34,211,238,0.25), transparent 40%)" }} />
                 <div className="text-xs font-semibold tracking-widest text-cyan-300">{c.tag}</div>
                 <h3 className="mt-2 text-xl font-bold">{c.title}</h3>
                 <p className="mt-2 text-sm text-neutral-300">{c.desc}</p>
-              </motion.div>
+              </div>
             ))}
           </div>
         </Container>
@@ -176,14 +164,12 @@ export default function CYDWebsite() {
               { step: "01", title: "Free audit", desc: "We map your processes and identify quick wins (1–2 weeks)." },
               { step: "02", title: "Prototype → Proof", desc: "We ship a working n8n workflow and measure impact." },
               { step: "03", title: "Scale & Care", desc: "Harden, monitor, and iterate. Optional retainer for growth." },
-            ].map((s, i) => (
-              <motion.div key={s.step} variants={fadeIn} initial="hidden" whileInView="show" viewport={{ once: true }}
-                transition={{ delay: i*0.05 }}
-                className="rounded-3xl border border-white/10 bg-white/5 p-6">
+            ].map((s) => (
+              <div key={s.step} className="rounded-3xl border border-white/10 bg-white/5 p-6">
                 <div className="text-sm font-black text-cyan-300">{s.step}</div>
                 <h3 className="mt-2 text-xl font-bold">{s.title}</h3>
                 <p className="mt-2 text-sm text-neutral-300">{s.desc}</p>
-              </motion.div>
+              </div>
             ))}
           </div>
         </Container>
@@ -194,23 +180,17 @@ export default function CYDWebsite() {
         <Container>
           <div className="mb-10 flex items-end justify-between">
             <h2 className="text-3xl font-black md:text-4xl">Case studies</h2>
-            <NeonButton as="a" href="#contact" className="text-cyan-300 border border-cyan-400/30 bg-white/5">Share yours →</NeonButton>
+            <a href="#contact" className="text-sm text-cyan-300 hover:underline">Share yours →</a>
           </div>
           <div className="grid gap-6 md:grid-cols-3">
-            {[
-              { title: "Automated social posts", img: "/case-social.svg" },
-              { title: "Lead gen chatbot", img: "/case-chatbot.svg" },
-              { title: "AI email assistant", img: "/case-email.svg" },
-            ].map((card) => (
-              <motion.div key={card.title} whileHover={{ y: -2 }} className="group overflow-hidden rounded-3xl border border-white/10 bg-white/5">
-                <div className="h-40 overflow-hidden">
-                  <img src={card.img} alt={card.title} className="h-40 w-full object-cover" />
-                </div>
+            {["Automated social posts", "Lead gen chatbot", "AI email assistant"].map((title) => (
+              <div key={title} className="group overflow-hidden rounded-3xl border border-white/10 bg-white/5">
+                <div className="h-40 bg-gradient-to-br from-cyan-400/30 to-sky-500/20" />
                 <div className="p-6">
-                  <h3 className="text-lg font-semibold">{card.title}</h3>
+                  <h3 className="text-lg font-semibold">{title}</h3>
                   <p className="mt-1 text-sm text-neutral-300">Outcome-focused write‑up coming soon.</p>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
         </Container>
@@ -254,24 +234,10 @@ export default function CYDWebsite() {
         <Container>
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="text-3xl font-black md:text-4xl">Ready to chase your dreams?</h2>
-            <p className="mt-3 text-neutral-300">
-              Tell us what you want to automate. We’ll send a quick plan and a fixed‑price quote. Prefer email?{" "}
-              <a href="mailto:cydsuccess@gmail.com" className="text-cyan-300 underline">cydsuccess@gmail.com</a>
-            </p>
-            <form className="mt-8 grid gap-4 text-left" onSubmit={submitLead}>
-              <input className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none placeholder:text-neutral-500 focus:border-cyan-400/50"
-                placeholder="Your name" required value={form.name} onChange={e=>setForm({...form, name: e.target.value})}/>
-              <input className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none placeholder:text-neutral-500 focus:border-cyan-400/50"
-                placeholder="Email or Telegram" required value={form.contact} onChange={e=>setForm({...form, contact: e.target.value})}/>
-              <textarea className="min-h-[120px] rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none placeholder:text-neutral-500 focus:border-cyan-400/50"
-                placeholder="What do you want to automate?" value={form.message} onChange={e=>setForm({...form, message: e.target.value})}/>
-              <div className="flex items-center justify-center gap-3">
-                <NeonButton className="bg-cyan-500/90 text-black" type="submit">{sending ? "Sending..." : "Send request"}</NeonButton>
-                <NeonButton as="a" href="#hero" className="border border-cyan-400/30 bg-white/5 text-cyan-200/90">Back to top</NeonButton>
-              </div>
-              {done && <p className="text-sm text-green-400">Thanks! We received your request.</p>}
-              {error && <p className="text-sm text-red-400">{error}</p>}
-            </form>
+            <p className="mt-3 text-neutral-300">Tell us what you want to automate. We’ll send a quick plan and a fixed‑price quote.</p>
+
+            {/* Formspree AJAX form */}
+            <FormspreeForm endpoint="https://formspree.io/f/mdklwpon" />
           </div>
         </Container>
       </section>
@@ -280,34 +246,24 @@ export default function CYDWebsite() {
       <footer className="border-t border-white/5 py-10">
         <Container className="flex flex-col items-center justify-between gap-6 text-sm text-neutral-400 md:flex-row">
           <div className="flex items-center gap-3">
-            <img src={logoUrl} alt="CYD" className="h-8 w-8 rounded-lg object-cover bg-white" />
+            <img src="/cyd-icon.png" alt="CYD" className="h-8 w-8 rounded-lg bg-white p-1" />
             <span>© {new Date().getFullYear()} CYD Corp – Chase Your Dreams</span>
           </div>
-          <div className="flex items-center gap-2">
-            <NeonLink href="#services">Services</NeonLink>
-            <NeonLink href="#how">Process</NeonLink>
-            <NeonLink href="#cases">Case studies</NeonLink>
-            <NeonLink href="#contact">Contact</NeonLink>
+          <div className="flex items-center gap-5">
+            <a href="#services" className="hover:text-white">Services</a>
+            <a href="#how" className="hover:text-white">Process</a>
+            <a href="#cases" className="hover:text-white">Case studies</a>
+            <a href="#contact" className="hover:text-white">Contact</a>
           </div>
         </Container>
       </footer>
 
-      {/* WORK WITH US MODAL */}
-      <Modal open={open} onClose={()=>setOpen(false)} title="Work with us">
-        <form className="grid gap-3" onSubmit={submitLead}>
-          <input className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none placeholder:text-neutral-500 focus:border-cyan-400/50"
-            placeholder="Your name" required value={form.name} onChange={e=>setForm({...form, name: e.target.value})}/>
-          <input className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none placeholder:text-neutral-500 focus:border-cyan-400/50"
-            placeholder="Email or Telegram" required value={form.contact} onChange={e=>setForm({...form, contact: e.target.value})}/>
-          <textarea className="min-h-[90px] rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none placeholder:text-neutral-500 focus:border-cyan-400/50"
-            placeholder="What do you want to automate? (optional)" value={form.message} onChange={e=>setForm({...form, message: e.target.value})}/>
-          <div className="flex items-center gap-3">
-            <NeonButton className="bg-cyan-500/90 text-black" type="submit">{sending ? "Sending..." : "Submit"}</NeonButton>
-            {done && <span className="text-green-400 text-sm">Sent!</span>}
-            {error && <span className="text-red-400 text-sm">{error}</span>}
-          </div>
-          <p className="mt-1 text-xs text-neutral-400">Or email us directly: <a className="text-cyan-300 underline" href="mailto:cydsuccess@gmail.com">cydsuccess@gmail.com</a></p>
-        </form>
+      {/* Work with us Modal */}
+      <Modal open={open} onClose={() => setOpen(false)} title="Work with us">
+        <p className="text-sm text-neutral-300">
+          Drop your details and we’ll get back within 24 hours.
+        </p>
+        <FormspreeForm endpoint="https://formspree.io/f/mdklwpon" compact />
       </Modal>
     </div>
   );

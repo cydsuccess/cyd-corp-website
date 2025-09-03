@@ -1,2 +1,3 @@
-import CYDWebsite from "../components/CYDWebsite";
-export default function Home(){ return <CYDWebsite />; }
+import dynamic from "next/dynamic";
+const CYDWebsite = dynamic(() => import("../components/CYDWebsite"), { ssr: false });
+export default function Home() { return <CYDWebsite />; }

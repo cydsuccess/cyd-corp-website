@@ -2,10 +2,16 @@
 import nodemailer from "nodemailer";
 
 const REQUIRED_ENV = ["SMTP_HOST", "SMTP_PORT", "SMTP_USER", "SMTP_PASS", "TO_EMAIL"];
+const hasMissingEnv = () =>
+  REQUIRED_ENV.filter((k) => !process.env[k] || String(process.env[k]).trim() === "");
 
-function missingEnv() {
-  const missing = REQUIRED_ENV.filter((k) => !process.env[k] || String(process.env[k]).trim() === "");
-  return missing.length ? missing : null;
+function escapeHtml(str = "") {
+  return String(str)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
 }
 
 export default async function handler(req, res) {
@@ -13,14 +19,28 @@ export default async function handler(req, res) {
     return res.status(405).json({ ok: false, error: "METHOD_NOT_ALLOWED" });
   }
 
-  const { name, email: contact, message } = req.body || {};
-  if (!name || !contact) {
-    return res.status(400).json({ ok: false, error: "MISSING_FIELDS", hint: "name and email/telegram required" });
+  // Ensure JSON body
+  let body = req.body;
+  if (!body || typeof body !== "object") {
+    return res.status(400).json({ ok: false, error: "INVALID_JSON_BODY" });
   }
 
-  // If env is missing, tell client to fallback to mailto (so you still get the lead)
-  const missing = missingEnv();
-  if (missing) {
+  // Accept name + (email | contact | telegram) + optional message
+  const name = (body.name || "").trim();
+  const email = (body.email || body.contact || body.telegram || "").trim();
+  const message = (body.message || "").trim();
+
+  if (!name || !email) {
+    return res.status(400).json({
+      ok: false,
+      error: "MISSING_FIELDS",
+      hint: "Provide 'name' and 'email' (or 'contact' / 'telegram')."
+    });
+  }
+
+  // If SMTP not configured, fall back gracefully (so you still get leads)
+  const missing = hasMissingEnv();
+  if (missing.length) {
     return res.status(200).json({
       ok: true,
       fallback: true,
@@ -41,36 +61,34 @@ export default async function handler(req, res) {
       port,
       secure: port === 465, // true for 465, false for 587
       auth: { user, pass },
-      // Hard timeouts so functions don’t hang
       connectionTimeout: 10_000,
       greetingTimeout: 10_000,
       socketTimeout: 20_000,
     });
 
-    // Verify SMTP is reachable (great for spotting wrong app password)
-    await transporter.verify();
+    await transporter.verify(); // validate SMTP credentials/connectivity
 
     const subject = `🚀 New CYD inquiry from ${name}`;
     const html = `
       <h2>New client request</h2>
       <p><strong>Name:</strong> ${escapeHtml(name)}</p>
-      <p><strong>Contact:</strong> ${escapeHtml(contact)}</p>
+      <p><strong>Contact:</strong> ${escapeHtml(email)}</p>
       <p><strong>Message:</strong><br/>${escapeHtml(message || "(none)")}</p>
     `;
     const text = `New client request
 Name: ${name}
-Contact: ${contact}
+Contact: ${email}
 Message:
 ${message || "(none)"}
 `;
 
     await transporter.sendMail({
-      from: `"CYD Website" <${user}>`,  // MUST be your SMTP_USER for Gmail
+      from: `"CYD Website" <${user}>`,  // must match SMTP_USER for Gmail
       to,
       subject,
       text,
       html,
-      replyTo: contact,                  // so you can hit reply to the client
+      replyTo: email
     });
 
     return res.status(200).json({ ok: true });
@@ -82,14 +100,4 @@ ${message || "(none)"}
     });
     return res.status(500).json({ ok: false, error: "SMTP_SEND_FAILED" });
   }
-}
-
-// Basic sanitizer to avoid HTML injection in email
-function escapeHtml(str) {
-  return String(str)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
 }

@@ -1,25 +1,34 @@
+// components/Modal.jsx
+import * as React from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useEffect } from "react";
 
-export default function Modal({ open, onClose, children, title = "Work with us" }) {
-  useEffect(() => {
-    const onEsc = (e) => e.key === "Escape" && onClose?.();
-    if (open) window.addEventListener("keydown", onEsc);
-    return () => window.removeEventListener("keydown", onEsc);
-  }, [open, onClose]);
-
+export default function Modal({ open, onClose, title, children }) {
   return (
     <AnimatePresence>
       {open && (
-        <motion.div className="fixed inset-0 z-[100] grid place-items-center" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-          <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={onClose} />
-          <motion.div role="dialog" aria-modal="true"
-            className="relative z-[101] w-full max-w-md rounded-3xl border border-white/10 bg-neutral-900 p-6 shadow-2xl"
-            initial={{ y: 30, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 20, opacity: 0 }}
-            transition={{ type: 'spring', stiffness: 260, damping: 22 }}>
-            <div className="mb-3 text-lg font-bold">{title}</div>
+        <motion.div
+          className="fixed inset-0 z-[100] grid place-items-center p-4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+        >
+          <div className="absolute inset-0 bg-black/60 backdrop-blur" onClick={onClose} />
+          <motion.div
+            initial={{ opacity: 0, y: 20, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 10, scale: 0.98 }}
+            className="relative z-[101] w-full max-w-lg rounded-3xl border border-white/10 bg-neutral-900 p-6 shadow-2xl"
+          >
+            <div className="mb-4 flex items-center justify-between">
+              <h3 className="text-lg font-bold text-white">{title || "Work with us"}</h3>
+              <button
+                onClick={onClose}
+                className="rounded-xl border border-white/10 px-3 py-1 text-sm text-neutral-300 hover:bg-white/10"
+              >
+                Close
+              </button>
+            </div>
             {children}
-            <button onClick={onClose} className="mt-4 text-sm text-neutral-400 hover:text-white">Close</button>
           </motion.div>
         </motion.div>
       )}
