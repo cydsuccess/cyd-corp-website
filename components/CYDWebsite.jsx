@@ -1,3 +1,4 @@
+import SiteLogo from '@/components/SiteLogo';
 import React from "react";
 import { motion } from "framer-motion";
 import Modal from "./Modal";
@@ -58,7 +59,7 @@ export default function CYDWebsite() {
         <Container className="flex h-16 items-center justify-between">
           <div className="flex items-center gap-3">
             {/* Symbol-only logo */}
-            <img src="/cyd-icon.png" alt="CYD" className="h-9 w-9 rounded-xl bg-white p-1 shadow-inner shadow-cyan-400/40" />
+            <SiteLogo variant="symbol" size={40} withLink href="/" />
             <span className="hidden text-sm text-neutral-400 sm:block">AI Automation Agency</span>
           </div>
           <nav className="hidden items-center gap-6 md:flex">
