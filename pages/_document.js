@@ -10,17 +10,18 @@ export default function Document() {
 
   return (
     <Html lang="en" className="bg-neutral-950">
-     <Head>
-  {/* Basic SEO (keep your own values) */}
+    <Head>
+  {/* Basic SEO */}
   <meta name="theme-color" content="#0A0F1C" />
 
   {/* --- FAVICONS & PWA ICONS (canonical set) --- */}
+  <link rel="icon" href="/favicon.ico" sizes="any" />
   <link rel="icon" type="image/svg+xml" href="/icon.svg?v=6" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="manifest" href="/site.webmanifest" />
   <link rel="shortcut icon" href="/favicon-32x32.png" />
 
-
+    
   {/* Social preview (adjust to your actual preview image if you have one) */}
   {/* Open Graph */}
   <meta property="og:type" content="website" />
