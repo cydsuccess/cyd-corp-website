@@ -58,7 +58,17 @@ export default function CYDWebsite() {
         <Container className="flex h-16 items-center justify-between">
           <div className="flex items-center gap-3">
             {/* Symbol-only logo */}
-            <img src="/cyd-icon.png" alt="CYD" className="h-9 w-9 rounded-xl bg-white p-1 shadow-inner shadow-cyan-400/40" />
+            <picture>
+  <source srcSet="/logo-full.svg" type="image/svg+xml" />
+  <img
+    src="/icon.png"
+    alt="CYD Corp"
+    width="36"
+    height="36"
+    className="block w-9 h-9 rounded-full shadow-lg shadow-blue-500/40"
+  />
+</picture>
+
             <span className="hidden text-sm text-neutral-400 sm:block">AI Automation Agency</span>
           </div>
           <nav className="hidden items-center gap-6 md:flex">
