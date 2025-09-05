@@ -13,16 +13,13 @@ const Glow = ({ className = "" }) => (
   <div className={`pointer-events-none absolute inset-0 opacity-40 blur-3xl ${className}`} />
 );
 
-const PrimaryButton = ({ children, href, onClick }) => {
-  const cls = "inline-flex items-center rounded-2xl bg-cyan-500/90 px-5 py-3 text-sm font-semibold tracking-wide text-black shadow-lg transition hover:translate-y-[-1px] hover:bg-cyan-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/70";
-  if (onClick) {
-    return <button onClick={onClick} className={cls}>{children}</button>;
-  }
-  return (
-    <a href={href || "#contact"} className={cls}>
-      {children}
-    </a>
-  );
+const PrimaryButton = ({ children, href, onClick, className = "" }) => {
+  const base =
+    "relative overflow-visible inline-flex items-center rounded-2xl bg-cyan-500/90 px-5 py-3 text-sm font-semibold tracking-wide text-black shadow-lg transition hover:translate-y-[-1px] hover:bg-cyan-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/70";
+  const cls = `${base} ${className}`.trim();
+
+  if (onClick) return <button onClick={onClick} className={cls}>{children}</button>;
+  return <a href={href || "#contact"} className={cls}>{children}</a>;
 };
 
 const SecondaryButton = ({ children, href = "#how" }) => (
@@ -75,7 +72,9 @@ export default function CYDWebsite() {
             <NavLink href="#how">How it works</NavLink>
             <NavLink href="#cases">Case studies</NavLink>
             <NavLink href="#about">About</NavLink>
-            <PrimaryButton onClick={() => setOpen(true)}>Work with us</PrimaryButton>
+            <PrimaryButton className="cyd-glow-btn" onClick={() => setOpen(true)}>
+  Work with us
+</PrimaryButton>
           </nav>
         </Container>
       </header>
