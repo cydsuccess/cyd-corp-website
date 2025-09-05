@@ -58,18 +58,17 @@ export default function CYDWebsite() {
         <Container className="flex h-16 items-center justify-between">
           <div className="flex items-center gap-3">
             {/* Symbol-only logo */}
-            <picture>
-  {/* Use the glowing SVG */}
+           <picture>
   <source srcSet="/icon.svg?v=6" type="image/svg+xml" />
-  {/* Fallback PNG (only used if SVG can't render) */}
   <img
     src="/favicon-32x32.png"
     alt="CYD Corp"
-    width="36"
-    height="36"
-    className="block"   /* no rounded classes so SVG shows true shape */
+    width="72"
+    height="72"
+    className="block w-[72px] h-[72px] shadow-lg shadow-blue-500/40"
   />
 </picture>
+
             <span className="hidden text-sm text-neutral-400 sm:block">AI Automation Agency</span>
           </div>
           <nav className="hidden items-center gap-6 md:flex">
