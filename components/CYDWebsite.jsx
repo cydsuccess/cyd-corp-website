@@ -288,7 +288,16 @@ export default function CYDWebsite() {
       <footer className="border-t border-white/5 py-10">
         <Container className="flex flex-col items-center justify-between gap-6 text-sm text-neutral-400 md:flex-row">
           <div className="flex items-center gap-3">
-            <img src="/cyd-icon.png" alt="CYD" className="h-8 w-8 rounded-lg bg-white p-1" />
+            <picture>
+  <source srcSet="/icon.svg?v=6" type="image/svg+xml" />
+  <img
+    src="/favicon-32x32.png"
+    alt="CYD Corp"
+    width="32"
+    height="32"
+    className="h-8 w-8"
+  />
+</picture>
             <span>© {new Date().getFullYear()} CYD Corp – Chase Your Dreams</span>
           </div>
           <div className="flex flex-wrap items-center gap-5">
