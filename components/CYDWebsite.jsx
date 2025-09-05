@@ -63,8 +63,8 @@ export default function CYDWebsite() {
   <img
     src="/favicon-32x32.png"
     alt="CYD"
-    width="48"
-    height="48"
+    width="68"
+    height="68"
     className="block h-12 w-12"
   />
 </picture>
