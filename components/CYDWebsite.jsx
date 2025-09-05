@@ -62,13 +62,12 @@ export default function CYDWebsite() {
   <source srcSet="/icon.svg?v=6" type="image/svg+xml" />
   <img
     src="/favicon-32x32.png"
-    alt="CYD Corp"
-    width="72"
-    height="72"
-    className="block w-[72px] h-[72px] shadow-lg shadow-blue-500/40"
+    alt="CYD"
+    width="48"
+    height="48"
+    className="block h-12 w-12"
   />
 </picture>
-
             <span className="hidden text-sm text-neutral-400 sm:block">AI Automation Agency</span>
           </div>
           <nav className="hidden items-center gap-6 md:flex">
