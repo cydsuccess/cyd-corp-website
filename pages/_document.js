@@ -38,6 +38,7 @@ export default function Document() {
   <meta name="twitter:title" content="CYD Corp — AI Automation Agency" />
   <meta name="twitter:description" content="We design, build, and maintain AI automations." />
   <meta name="twitter:image" content="https://cyd-corp.com/og.jpg" />
+  <script defer src="/cyd-enhance.js"></script>  
 </Head>
       <body className="bg-neutral-950">
         <Main />
