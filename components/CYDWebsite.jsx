@@ -75,7 +75,9 @@ export default function CYDWebsite() {
             <NavLink href="#how">How it works</NavLink>
             <NavLink href="#cases">Case studies</NavLink>
             <NavLink href="#about">About</NavLink>
-            <PrimaryButton onClick={() => setOpen(true)}>Work with us</PrimaryButton>
+            <PrimaryButton onClick={() => setOpen(true)}>
+  <span className="cyd-glow px-6 py-3 inline-block">Work with us</span>
+</PrimaryButton>
           </nav>
         </Container>
       </header>
@@ -122,13 +124,68 @@ export default function CYDWebsite() {
             <p className="mt-4 text-xs uppercase tracking-widest text-neutral-400">Knowledge + Experience = CYD Foundation</p>
           </motion.div>
 
-          {/* Demo panel */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.1 }}
-            className="relative"
-          >
+          {/* Demo panel with glow + animation */}
+<motion.div
+  initial={{ opacity: 0, y: 30, scale: 0.95 }}
+  animate={{ opacity: 1, y: 0, scale: 1 }}
+  transition={{ duration: 0.9, ease: "easeOut" }}
+  whileHover={{ scale: 1.02, boxShadow: "0 0 40px rgba(34,211,238,0.5)" }}
+  className="relative rounded-3xl border border-cyan-500/20 bg-neutral-900/40 p-6 shadow-xl backdrop-blur-xl"
+>
+  <div className="rounded-2xl border border-cyan-500/30 bg-neutral-900/70 p-6 shadow-lg shadow-cyan-500/10">
+    <div className="mb-4 flex items-center justify-between">
+      <div className="text-sm font-semibold text-cyan-300">Automation Overview</div>
+      <div className="text-xs text-neutral-400">n8n • OpenAI • Slack • Notion</div>
+    </div>
+
+    <div className="grid gap-4 md:grid-cols-3">
+      {["Leads → CRM", "Support Bot", "Daily Reports"].map((label, i) => (
+        <motion.div
+          key={label}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: i * 0.2 }}
+          className="rounded-lg border border-cyan-400/20 bg-neutral-800/50 p-4"
+        >
+          <div className="text-xs text-neutral-400">Workflow</div>
+          <div className="text-sm font-semibold text-neutral-200">{label}</div>
+          <div className="mt-3 h-2 w-full rounded bg-neutral-700">
+            <motion.div
+              className="h-2 rounded bg-cyan-400/80"
+              initial={{ width: "0%" }}
+              animate={{ width: `${Math.floor(Math.random() * 40) + 60}%` }}
+              transition={{ duration: 1.2, ease: "easeOut" }}
+            />
+          </div>
+        </motion.div>
+      ))}
+    </div>
+
+    <div className="mt-6 grid gap-4 md:grid-cols-2">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.8 }}
+        className="rounded-lg border border-cyan-400/20 bg-neutral-800/50 p-4"
+      >
+        <div className="text-xs text-neutral-400">Result</div>
+        <div className="text-sm font-semibold">Time saved this month</div>
+        <div className="mt-3 text-3xl font-black text-cyan-300">142 hrs</div>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1 }}
+        className="rounded-lg border border-cyan-400/20 bg-neutral-800/50 p-4"
+      >
+        <div className="text-xs text-neutral-400">Result</div>
+        <div className="text-sm font-semibold">Revenue impact</div>
+        <div className="mt-3 text-3xl font-black text-cyan-300">+$18,700</div>
+      </motion.div>
+    </div>
+  </div>
+</motion.div>
             <div className="rounded-3xl border border-white/10 bg-white/5 p-4 shadow-2xl">
               <div className="rounded-2xl border border-white/10 bg-neutral-900 p-6">
                 <div className="mb-4 flex items-center justify-between">
