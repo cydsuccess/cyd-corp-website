@@ -96,10 +96,19 @@ export default function CYDWebsite() {
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
             {/* Full-text logo */}
             <div className="mb-6 inline-flex items-center gap-4">
-              <img src="/cyd-icon.png" alt="CYD" className="h-12 w-12 rounded-2xl border border-cyan-400/30 bg-white/5 p-1" />
-              <div className="h-8 w-px bg-white/10" />
-              <p className="text-sm font-semibold tracking-widest text-cyan-300">CHASE YOUR DREAMS</p>
-            </div>
+  <picture>
+  <source srcSet="/icon.svg?v=6" type="image/svg+xml" />
+  <img
+    src="/favicon-32x32.png"
+    alt="CYD"
+    className="h-24 w-24"
+  />
+</picture>
+  <div className="h-8 w-px bg-white/10" />
+  <p className="text-sm font-semibold tracking-widest text-cyan-300">
+    CHASE YOUR DREAMS
+  </p>
+</div>
             <h1 className="text-4xl font-black leading-[1.1] sm:text-5xl md:text-6xl">
               Automating your future with <span className="bg-gradient-to-r from-cyan-300 via-cyan-400 to-sky-500 bg-clip-text text-transparent">AI + n8n</span>
             </h1>
