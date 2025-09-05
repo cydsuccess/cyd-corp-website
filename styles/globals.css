@@ -59,3 +59,38 @@ body {
   0%, 100% { transform: translateY(0px); }
   50% { transform: translateY(-8px); }
 }
+/* === Safe glow halo for the "Work with us" button === */
+/* Apply with className="cyd-glow-btn" on the button component */
+.cyd-glow-btn {
+  position: relative;
+  overflow: visible;         /* let the glow breathe outside */
+}
+
+.cyd-glow-btn::before {
+  content: "";
+  position: absolute;
+  inset: -6px;               /* halo size */
+  border-radius: inherit;
+  z-index: -1;               /* sits behind the button */
+  background:
+    conic-gradient(
+      from 0deg,
+      #22d3ee 0deg,          /* cyan-400 */
+      #60a5fa 130deg,        /* sky-400 */
+      #818cf8 240deg,        /* indigo-400 */
+      #22d3ee 360deg
+    );
+  filter: blur(10px);
+  opacity: 0.85;
+  animation: cyd-btn-spin 6s linear infinite;
+  pointer-events: none;      /* never block clicks */
+}
+
+.cyd-glow-btn:hover::before {
+  filter: blur(12px);
+  opacity: 1;
+}
+
+@keyframes cyd-btn-spin {
+  to { transform: rotate(360deg); }
+}
