@@ -272,3 +272,13 @@
 .theme-light footer img {
   filter: drop-shadow(0 3px 10px rgba(14,165,233,0.35));
 }
+/* =========================
+   Logo shadow fix for light theme
+   ========================= */
+
+/* Apply to all logo <img> and inline <svg> inside the light theme */
+.theme-light img[alt*="CYD"],
+.theme-light svg[aria-label*="CYD"],
+.theme-light picture img[alt*="CYD"] {
+  filter: drop-shadow(0 2px 3px rgba(0,0,0,0.6));
+}
