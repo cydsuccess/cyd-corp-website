@@ -124,44 +124,61 @@ export default function CYDWebsite() {
 
           {/* Demo panel */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.1 }}
-            className="relative"
+           {/* Demo panel (Automation Overview) */}
+<motion.div
+  initial={{ opacity: 0, y: 20 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true, amount: 0.4 }}
+  transition={{ duration: 0.6 }}
+  className="relative"
+>
+  {/* Card wrapper */}
+  <div className="rounded-3xl border border-white/10 bg-white/90 p-4 shadow-2xl dark:bg-neutral-900/60 dark:border-white/5">
+    {/* Inner frame */}
+    <div className="rounded-2xl border border-white/10 bg-neutral-900/8 p-6 dark:bg-neutral-900/60">
+      {/* Header */}
+      <div className="mb-4 flex items-center justify-between">
+        <div className="text-sm font-semibold text-neutral-300">Automation Overview</div>
+        <div className="text-xs text-neutral-400">n8n • OpenAI • Slack • Notion</div>
+      </div>
+
+      {/* Workflows (three mini-cards) */}
+      <div className="grid gap-4 sm:grid-cols-3">
+        {["Leads → CRM", "Support Bot", "Daily Reports"].map((label, i) => (
+          <div
+            key={label}
+            className="rounded-xl border border-white/10 bg-neutral-900/8 p-4"
           >
-            <div className="rounded-3xl border border-white/10 bg-white/5 p-4 shadow-2xl">
-              <div className="ao-panel rounded-3xl border border-white/10 bg-white/5 p-4 shadow-2xl">
-              <div className="rounded-2xl border border-white/10 bg-neutral-900 p-6">
-                <div className="mb-4 flex items-center justify-between">
-                  <div className="text-sm font-semibold text-neutral-300">Automation Overview</div>
-                  <div className="text-xs text-neutral-400">n8n • OpenAI • Slack • Notion</div>
-                </div>
-                <div className="grid gap-4 md:grid-cols-3">
-                  {["Leads → CRM", "Support Bot", "Daily Reports"].map((label) => (
-                    <div key={label} className="rounded-xl border border-white/10 bg-neutral-800/60 p-4">
-                      <div className="text-xs text-neutral-400">Workflow</div>
-                      <div className="text-sm font-semibold">{label}</div>
-                      <div className="mt-3 h-2 w-full rounded bg-neutral-700">
-                        <div className="h-2 rounded bg-cyan-400/80" style={{ width: `${Math.floor(Math.random() * 40) + 60}%` }} />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                <div className="mt-6 grid gap-4 md:grid-cols-2">
-                  <div className="rounded-xl border border-white/10 bg-neutral-800/60 p-4">
-                    <div className="text-xs text-neutral-400">Result</div>
-                    <div className="text-sm font-semibold">Time saved this month</div>
-                    <div className="mt-3 text-3xl font-black text-cyan-300">142 hrs</div>
-                  </div>
-                  <div className="rounded-xl border border-white/10 bg-neutral-800/60 p-4">
-                    <div className="text-xs text-neutral-400">Result</div>
-                    <div className="text-sm font-semibold">Revenue impact</div>
-                    <div className="mt-3 text-3xl font-black text-cyan-300">+$18,700</div>
-                  </div>
-                </div>
-              </div>
+            <div className="text-xs text-neutral-400">Workflow</div>
+            <div className="text-sm font-semibold text-neutral-200">{label}</div>
+            {/* progress line */}
+            <div className="mt-2 h-2 w-full rounded bg-neutral-800/60">
+              <div
+                className="h-2 rounded bg-cyan-400/80"
+                style={{ width: `${60 + i * 10}%` }}
+              />
             </div>
-          </motion.div>
+          </div>
+        ))}
+      </div>
+
+      {/* Results rows */}
+      <div className="mt-6 grid gap-4 sm:grid-cols-2">
+        <div className="rounded-xl border border-white/10 bg-neutral-900/8 p-4">
+          <div className="text-xs text-neutral-400">Result</div>
+          <div className="text-sm text-neutral-400">Time saved this month</div>
+          <div className="mt-3 text-2xl font-black text-cyan-300">142 hrs</div>
+        </div>
+
+        <div className="rounded-xl border border-white/10 bg-neutral-900/8 p-4">
+          <div className="text-xs text-neutral-400">Result</div>
+          <div className="text-sm text-neutral-400">Revenue impact</div>
+          <div className="mt-3 text-2xl font-black text-cyan-300">$18,700</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</motion.div>
         </Container>
       </section>
 
