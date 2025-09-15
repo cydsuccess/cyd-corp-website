@@ -1,0 +1,41 @@
+
+/* CYD Light Theme Overrides (safe, CSS-only) */
+
+html, body {
+  background-color: #ffffff !important;
+  color: #111827 !important; /* neutral-900 */
+}
+
+/* Replace dark bg utilities */
+.bg-neutral-950,
+.bg-neutral-950\/70,
+.bg-neutral-900\/70,
+.bg-neutral-800\/50,
+.bg-white\/5,
+.bg-white\/10 {
+  background-color: #ffffff !important;
+}
+
+/* Text colors */
+.text-neutral-100 { color: #111827 !important; }
+.text-neutral-200 { color: #1f2937 !important; }
+.text-neutral-300 { color: #374151 !important; }
+.text-neutral-400 { color: #4b5563 !important; }
+
+/* Borders/rings */
+.border-white\/5,
+.border-white\/10 { border-color: #e5e7eb !important; }
+.ring-white\/10 { --tw-ring-color: rgba(229,231,235,1) !important; }
+
+/* Footer border */
+.border-t { border-top-color: #e5e7eb !important; }
+
+/* Overlay soften */
+[class*="bg-\[radial-gradient"] {
+  opacity: 0.18 !important;
+}
+
+/* Shadows */
+.shadow-cyan-500\/10 {
+  box-shadow: 0 10px 15px -5px rgba(6,182,212,0.10), 0 4px 6px -4px rgba(6,182,212,0.06) !important;
+}
