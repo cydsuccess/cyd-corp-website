@@ -1,84 +1,130 @@
-/* styles/light-theme.css
-   Light theme overrides (scoped with .theme-light on <body>)
-   Keeps cyan accent, flips neutral UI to white/black, neutralizes dark backdrops.
-*/
+/* ---------- LIGHT THEME POLISH (white + neon-cyan) ---------- */
 
-/* Base page */
-.theme-light,
-.theme-light html,
-.theme-light body {
-  background: #ffffff !important;
-  color: #0b0f14 !important; /* near-black */
+/* Global page on light */
+.theme-light, .theme-light html, .theme-light body {
+  background:#fff !important;
+  color:#0b0f14 !important;
 }
 
-/* Neutral text tweaks (Tailwind utility colors flipped) */
-.theme-light .text-neutral-100,
-.theme-light .text-neutral-200,
-.theme-light .text-neutral-300 {
-  color: #0b0f14 !important;
-}
-.theme-light .text-neutral-400,
-.theme-light .text-neutral-500 {
-  color: #2a3340 !important;
-}
-.theme-light .text-neutral-600,
-.theme-light .text-neutral-700 {
-  color: #374151 !important;
-}
-
-/* Neutral backgrounds flipped to white */
+/* Kill any residual dark overlays/glass */
 .theme-light .bg-neutral-900,
-.theme-light .bg-neutral-950 {
-  background-color: #ffffff !important;
-}
-
-/* “Glass” blocks (were dark); make them light cards with subtle border/shadow */
-.theme-light .bg-white\/5,
-.theme-light .bg-black\/5,
+.theme-light .bg-neutral-950,
+.theme-light .bg-neutral-900\/60,
+.theme-light .bg-neutral-900\/70,
+.theme-light .bg-neutral-900\/80,
 .theme-light .bg-neutral-800\/60,
-.theme-light .bg-neutral-900\/60 {
-  background: rgba(255,255,255,0.9) !important;
-  backdrop-filter: saturate(1.1) blur(0px);
+.theme-light .bg-black\/5,
+.theme-light .bg-white\/5 {
+  background:#fff !important;
+  backdrop-filter:none !important;
 }
 
+/* Subtle, professional white-card borders & shadows */
 .theme-light .border-white\/5,
 .theme-light .border-white\/10,
 .theme-light .border-neutral-800,
 .theme-light .border-neutral-900 {
-  border-color: rgba(10, 15, 20, 0.08) !important;
+  border-color:rgba(10,15,20,.08) !important;
 }
-
-/* Light card style for panels (e.g., Automation Overview) */
-.theme-light .shadow-\[0_10px_30px_-10px_rgba\(0,0,0,0\.6\)\],
+.theme-light .shadow,
 .theme-light .shadow-lg,
-.theme-light .shadow {
-  box-shadow: 0 10px 30px -12px rgba(10,15,20,0.18) !important;
+.theme-light .shadow-2xl,
+.theme-light .shadow-\[0_10px_30px_-10px_rgba\(0,0,0,0\.6\)\]{
+  box-shadow:0 12px 28px -14px rgba(10,15,20,.18) !important;
 }
 
-/* Neon cyan accent stays */
-.theme-light .from-cyan-300,
-.theme-light .via-cyan-400,
-.theme-light .to-sky-500,
-.theme-light .text-cyan-300,
-.theme-light .text-cyan-400,
-.theme-light .bg-cyan-500\/10,
-.theme-light .border-cyan-400\/30 {
-  /* keep as-is; present to ensure they aren't overridden by neutrals */
+/* Navbar: no grey bar */
+.theme-light header {
+  background:#fff !important;
+  border-bottom:1px solid rgba(10,15,20,.08) !important;
+  box-shadow:none !important;
 }
 
-/* —— Dark radial backdrop remover (the big gradient layer) —— */
-/* Your backdrop element uses Tailwind’s arbitrary bg class. We just hide that layer in light mode. */
-.theme-light .pointer-events-none.fixed.inset-0[aria-hidden] {
-  display: none !important;
+/* Remove the old dark radial background layer */
+.theme-light .pointer-events-none.fixed.inset-0[aria-hidden] { display:none !important; }
+
+/* NEW light backdrop: airy cyan beams (very subtle) */
+.theme-light body::before{
+  content:"";
+  position:fixed;
+  inset:-20% -10% auto -10%;
+  height:75vh;
+  pointer-events:none;
+  background:
+    radial-gradient(60% 40% at 80% 10%, rgba(56,189,248,.18) 0%, rgba(56,189,248,0) 60%),
+    radial-gradient(45% 35% at 10% 30%, rgba(14,165,233,.14) 0%, rgba(14,165,233,0) 60%);
+  z-index:-1;
 }
 
-/* Navbar pills/buttons still look good on light */
-.theme-light .bg-white\/5:hover {
-  background: rgba(0,0,0,0.04) !important;
+/* Text colors (stay dark on white) */
+.theme-light .text-neutral-100,
+.theme-light .text-neutral-200,
+.theme-light .text-neutral-300 { color:#0b0f14 !important; }
+.theme-light .text-neutral-400,
+.theme-light .text-neutral-500 { color:#2a3340 !important; }
+.theme-light .text-neutral-600,
+.theme-light .text-neutral-700 { color:#374151 !important; }
+
+/* Cards that previously relied on “glass” */
+.theme-light .rounded-3xl.bg-white\/5,
+.theme-light .rounded-2xl.bg-white\/5,
+.theme-light .rounded-xl.bg-white\/5 { background:#fff !important; }
+
+/* Case-study caption bars: force white (no grey strip) */
+.theme-light .rounded-b-lg.bg-neutral-900\/60,
+.theme-light .rounded-b-xl.bg-neutral-900\/60,
+.theme-light .rounded-b-2xl.bg-neutral-900\/60 {
+  background:#fff !important;
+  color:#2a3340 !important;
+  border-top:1px solid rgba(10,15,20,.08) !important;
 }
 
-/* Footer readability */
+/* Logo visibility: add neon-cyan halo + ensure not translucent */
+.theme-light img[alt="CYD"],
+.theme-light img[alt="CYD Corp"],
+.theme-light .cyd-logo {
+  filter: drop-shadow(0 6px 22px rgba(0,168,255,.38));
+  opacity:1 !important;
+}
+
+/* Footer logo link zone stays readable on white */
 .theme-light footer, 
-.theme-light footer * {
-  color: #2a3340 !important;
+.theme-light footer * { color:#2a3340 !important; }
+
+/* -------- Automation Overview (light-mode neon matte) -------- */
+/* Add .ao-panel class on the outer AO card container (see step 2). */
+.theme-light .ao-panel{
+  position:relative;
+  background:#fff !important;
+  border:1px solid rgba(10,15,20,.08) !important;
+  box-shadow:0 18px 40px -22px rgba(10,15,20,.22) !important;
 }
+.theme-light .ao-panel::after{
+  content:"";
+  position:absolute; inset:-2px;
+  border-radius:inherit;
+  pointer-events:none;
+  background:
+    conic-gradient(from 180deg,
+      rgba(0,169,255,.00) 0deg,
+      rgba(0,169,255,.35) 120deg,
+      rgba(0,169,255,.00) 240deg,
+      rgba(0,169,255,.00) 360deg);
+  filter:blur(10px);
+  opacity:.55;
+  animation:aoSweep 7.5s linear infinite;
+}
+@keyframes aoSweep { to { transform:rotate(360deg); } }
+
+/* AO inner “mini bars” should be clearly visible on light */
+.theme-light .h-2.rounded.bg-cyan-400\/80,
+.theme-light .h-2.rounded.bg-neutral-700 {
+  background: linear-gradient(90deg, #06b6d4 0%, #22d3ee 100%) !important;
+}
+
+/* Buttons on white: hover feedback stays crisp */
+.theme-light .hover\:bg-white\/10:hover { background:rgba(0,0,0,.04) !important; }
+
+/* Make hero CYD mark readable on white even when very light */
+.theme-light .rounded-2xl.border,
+.theme-light .rounded-2xl.bg-white\/5 { background:#fff !important; }
