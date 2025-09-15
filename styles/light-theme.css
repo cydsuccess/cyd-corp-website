@@ -1,300 +1,98 @@
-/* ---------- LIGHT THEME POLISH (white + neon-cyan) ---------- */
+/* ==========================================================================
+   Light Theme (hard overrides)
+   - Apply by adding class "theme-light" on <body> (already in _document.js).
+   - Design system: White canvas (#fff), near-black text (#0b0f14),
+     neon-cyan accents (Tailwind cyan-300/400/500 family).
+   - This file uses aggressive selectors + !important to win over Tailwind
+     dark styles and arbitrary bg utilities that were baked into components.
+   ========================================================================== */
 
-/* Global page on light */
-.theme-light, .theme-light html, .theme-light body {
-  background:#fff !important;
-  color:#0b0f14 !important;
+/* Base canvas and type ---------------------------------------------------- */
+.theme-light,
+.theme-light html,
+.theme-light body {
+  background: #ffffff !important;
+  color: #0b0f14 !important;
 }
 
-/* Kill any residual dark overlays/glass */
-.theme-light .bg-neutral-900,
-.theme-light .bg-neutral-950,
+/* Make every "neutral text" variant readable on white */
+.theme-light .text-neutral-50,
+.theme-light .text-neutral-100,
+.theme-light .text-neutral-200,
+.theme-light .text-neutral-300,
+.theme-light .text-white {
+  color: #0b0f14 !important;
+}
+.theme-light .text-neutral-400,
+.theme-light .text-neutral-500 {
+  color: #2a3340 !important;
+}
+.theme-light .text-neutral-600,
+.theme-light .text-neutral-700,
+.theme-light .text-neutral-800 {
+  color: #374151 !important;
+}
+
+/* Kill dark radial/global backdrops (the smoky/gray layers) --------------- */
+.theme-light .pointer-events-none.fixed.inset-0[aria-hidden],
+.theme-light .pointer-events-none.absolute[aria-hidden] {
+  display: none !important;
+}
+
+/* Neutral backgrounds -> white ------------------------------------------- */
+.theme-light [class*="bg-neutral-9"],
+.theme-light [class*="bg-neutral-8"],
+.theme-light .bg-black\/5,
+.theme-light .bg-black\/10,
+.theme-light .bg-white\/5,
+.theme-light .bg-white\/10,
 .theme-light .bg-neutral-900\/60,
-.theme-light .bg-neutral-900\/70,
 .theme-light .bg-neutral-900\/80,
 .theme-light .bg-neutral-800\/60,
-.theme-light .bg-black\/5,
-.theme-light .bg-white\/5 {
-  background:#fff !important;
-  backdrop-filter:none !important;
+.theme-light .bg-neutral-800\/80 {
+  background-color: #ffffff !important;
+  backdrop-filter: none !important;
 }
 
-/* Subtle, professional white-card borders & shadows */
+/* Card chrome: subtle border + soft lift (replaces dark shadows) ---------- */
 .theme-light .border-white\/5,
 .theme-light .border-white\/10,
 .theme-light .border-neutral-800,
-.theme-light .border-neutral-900 {
-  border-color:rgba(10,15,20,.08) !important;
+.theme-light .border-neutral-900,
+.theme-light [class*="border-neutral-9"],
+.theme-light [class*="border-neutral-8"] {
+  border-color: rgba(10,15,20,0.08) !important;
 }
 .theme-light .shadow,
+.theme-light .shadow-md,
 .theme-light .shadow-lg,
-.theme-light .shadow-2xl,
-.theme-light .shadow-\[0_10px_30px_-10px_rgba\(0,0,0,0\.6\)\]{
-  box-shadow:0 12px 28px -14px rgba(10,15,20,.18) !important;
+.theme-light .shadow-xl,
+.theme-light .shadow-\[0_10px_30px_-10px_rgba\(0,0,0,0\.6\)\] {
+  box-shadow: 0 10px 30px -12px rgba(10,15,20,0.16) !important;
 }
 
-/* Navbar: no grey bar */
-.theme-light header {
-  background:#fff !important;
-  border-bottom:1px solid rgba(10,15,20,.08) !important;
-  box-shadow:none !important;
-}
-
-/* Remove the old dark radial background layer */
-.theme-light .pointer-events-none.fixed.inset-0[aria-hidden] { display:none !important; }
-
-/* NEW light backdrop: airy cyan beams (very subtle) */
-.theme-light body::before{
-  content:"";
-  position:fixed;
-  inset:-20% -10% auto -10%;
-  height:75vh;
-  pointer-events:none;
-  background:
-    radial-gradient(60% 40% at 80% 10%, rgba(56,189,248,.18) 0%, rgba(56,189,248,0) 60%),
-    radial-gradient(45% 35% at 10% 30%, rgba(14,165,233,.14) 0%, rgba(14,165,233,0) 60%);
-  z-index:-1;
-}
-
-/* Text colors (stay dark on white) */
-.theme-light .text-neutral-100,
-.theme-light .text-neutral-200,
-.theme-light .text-neutral-300 { color:#0b0f14 !important; }
-.theme-light .text-neutral-400,
-.theme-light .text-neutral-500 { color:#2a3340 !important; }
-.theme-light .text-neutral-600,
-.theme-light .text-neutral-700 { color:#374151 !important; }
-
-/* Cards that previously relied on “glass” */
-.theme-light .rounded-3xl.bg-white\/5,
-.theme-light .rounded-2xl.bg-white\/5,
-.theme-light .rounded-xl.bg-white\/5 { background:#fff !important; }
-
-/* Case-study caption bars: force white (no grey strip) */
-.theme-light .rounded-b-lg.bg-neutral-900\/60,
-.theme-light .rounded-b-xl.bg-neutral-900\/60,
-.theme-light .rounded-b-2xl.bg-neutral-900\/60 {
-  background:#fff !important;
-  color:#2a3340 !important;
-  border-top:1px solid rgba(10,15,20,.08) !important;
-}
-
-/* Logo visibility: add neon-cyan halo + ensure not translucent */
-.theme-light img[alt="CYD"],
-.theme-light img[alt="CYD Corp"],
-.theme-light .cyd-logo {
-  filter: drop-shadow(0 6px 22px rgba(0,168,255,.38));
-  opacity:1 !important;
-}
-
-/* Footer logo link zone stays readable on white */
-.theme-light footer, 
-.theme-light footer * { color:#2a3340 !important; }
-
-/* -------- Automation Overview (light-mode neon matte) -------- */
-/* Add .ao-panel class on the outer AO card container (see step 2). */
-.theme-light .ao-panel{
-  position:relative;
-  background:#fff !important;
-  border:1px solid rgba(10,15,20,.08) !important;
-  box-shadow:0 18px 40px -22px rgba(10,15,20,.22) !important;
-}
-.theme-light .ao-panel::after{
-  content:"";
-  position:absolute; inset:-2px;
-  border-radius:inherit;
-  pointer-events:none;
-  background:
-    conic-gradient(from 180deg,
-      rgba(0,169,255,.00) 0deg,
-      rgba(0,169,255,.35) 120deg,
-      rgba(0,169,255,.00) 240deg,
-      rgba(0,169,255,.00) 360deg);
-  filter:blur(10px);
-  opacity:.55;
-  animation:aoSweep 7.5s linear infinite;
-}
-@keyframes aoSweep { to { transform:rotate(360deg); } }
-
-/* AO inner “mini bars” should be clearly visible on light */
-.theme-light .h-2.rounded.bg-cyan-400\/80,
-.theme-light .h-2.rounded.bg-neutral-700 {
-  background: linear-gradient(90deg, #06b6d4 0%, #22d3ee 100%) !important;
-}
-
-/* Buttons on white: hover feedback stays crisp */
-.theme-light .hover\:bg-white\/10:hover { background:rgba(0,0,0,.04) !important; }
-
-/* Make hero CYD mark readable on white even when very light */
-.theme-light .rounded-2xl.border,
-.theme-light .rounded-2xl.bg-white\/5 { background:#fff !important; }
-/* existing overrides here... */
-
-/* ------------------------- */
-/* NEW FIXES: white bg + logo shadow */
-/* ------------------------- */
-
-/* Force all dark/grey containers to white in light theme */
-.theme-light .bg-neutral-900,
-.theme-light .bg-neutral-950,
-.theme-light .bg-white\/5,
-.theme-light .bg-black\/5,
-.theme-light .bg-neutral-800\/60,
-.theme-light .bg-neutral-900\/60 {
-  background-color: #ffffff !important;
+/* Automation Overview panel: ensure light style holds --------------------- */
+.theme-light .ao-card,
+.theme-light [data-ao],
+.theme-light .rounded-3xl.border {
   background: #ffffff !important;
-  backdrop-filter: none !important;
-  box-shadow: none !important;
-  border: 1px solid rgba(0,0,0,0.06) !important; /* subtle border instead of grey */
+  border-color: rgba(10,15,20,0.08) !important;
+  box-shadow: 0 10px 30px -12px rgba(10,15,20,0.16) !important;
 }
 
-/* Card sections (How it works, Case studies, etc.) */
-.theme-light section,
-.theme-light .rounded-3xl,
-.theme-light .rounded-2xl {
+/* Case Studies: force caption bars to white (no gray strips) -------------- */
+.theme-light .case-caption,
+.theme-light [class*="bg-neutral-900\/80"],
+.theme-light [class*="bg-neutral-900\/70"],
+.theme-light [class*="bg-neutral-800\/80"],
+.theme-light [class*="bg-neutral-700\/80"] {
   background: #ffffff !important;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.06) !important;
+  color: #0b0f14 !important;
+  border-color: rgba(10,15,20,0.08) !important;
+  box-shadow: 0 10px 30px -12px rgba(10,15,20,0.12) !important;
 }
 
-/* Make sure case study images sit on white */
-.theme-light .case-study,
-.theme-light .case-study img {
-  background: #ffffff !important;
-}
-
-/* Logo visibility fix (header + footer logos) */
-.theme-light img[alt="CYD"],
-.theme-light picture img,
-.theme-light footer img {
-  filter: drop-shadow(0 0 6px rgba(0, 200, 255, 0.7));
-}
-/* =========================
-   Light theme refinements
-   Make hero/nav/case cards stand out + neon CTA
-   ========================= */
-
-/* 1) Navbar: crisp white w/ soft divider + elevation */
-.theme-light header.sticky {
-  background: rgba(255,255,255,0.96) !important;
-  backdrop-filter: saturate(1.05) blur(2px);
-  box-shadow: 0 6px 20px -12px rgba(9, 14, 22, 0.18);
-  border-bottom: 1px solid rgba(9, 14, 22, 0.06);
-}
-
-/* 2) CYD logo (both in navbar and hero badge): add subtle cyan glow so it’s visible on white */
-.theme-light header img,
-.theme-light #hero picture img {
-  filter: drop-shadow(0 4px 14px rgba(14, 165, 233, 0.35));
-}
-
-/* 3) Hero “brand pill” (logo + CHASE YOUR DREAMS) — lift it from the page */
-.theme-light #hero .inline-flex.items-center.gap-4 {
-  background: #fff;
-  border: 1px solid rgba(9,14,22,0.06);
-  border-radius: 16px;
-  padding: 10px 14px;
-  box-shadow:
-    0 14px 30px -18px rgba(9,14,22,0.22),
-    0 0 0 6px rgba(14,165,233,0.06);
-}
-
-/* 4) Page aura: a gentle cyan vignette so top doesn’t feel flat-white */
-.theme-light body::before {
-  content: "";
-  position: fixed;
-  inset: -20% -10% 50% -10%;
-  pointer-events: none;
-  background:
-    radial-gradient(50% 40% at 75% 10%, rgba(14,165,233,0.12) 0%, rgba(14,165,233,0) 60%),
-    radial-gradient(30% 30% at 10% 8%, rgba(56,189,248,0.10) 0%, rgba(56,189,248,0) 60%);
-  z-index: 0;
-}
-
-/* 5) Case studies — make the whole card white and remove gray overlays */
-.theme-light .case-studies-grid > * {
-  background: #ffffff !important;
-  border: 1px solid rgba(9,14,22,0.08) !important;
-  box-shadow: 0 18px 40px -22px rgba(9,14,22,0.22);
-}
-
-/* In case the cards don’t have a wrapper class, force common dark overlays to white */
-.theme-light [class*="bg-neutral-900/"],
-.theme-light [class*="bg-neutral-800/"],
-.theme-light [class*="bg-black/40"],
-.theme-light [class*="bg-black/50"],
-.theme-light [class*="bg-black/60"] {
-  background: #ffffff !important;
-}
-
-/* captions on the case cards */
-.theme-light .case-studies-grid [class*="rounded"][class*="border"][class*="p-"] {
-  background: #ffffff !important;
-  border-color: rgba(9,14,22,0.08) !important;
-}
-
-/* 6) Metric blocks / “How it works” steps: ensure white cards on white page */
-.theme-light .bg-white\/5,
-.theme-light .bg-black\/5,
-.theme-light .bg-neutral-800\/60,
-.theme-light .bg-neutral-900\/60 {
-  background: #ffffff !important;
-  border: 1px solid rgba(9,14,22,0.08) !important;
-  box-shadow: 0 16px 34px -22px rgba(9,14,22,0.18);
-}
-
-/* 7) “Work with us” = neon cyan pill (blue as before), readable on white */
-.theme-light a[href*="#contact"],
-.theme-light button[class*="bg-cyan-500"] {
-  background: linear-gradient(180deg, #22d3ee 0%, #06b6d4 100%) !important; /* neon cyan */
-  color: #051017 !important;
-  border: 0 !important;
-  box-shadow:
-    0 10px 26px rgba(34, 211, 238, 0.35),
-    0 0 0 6px rgba(34,211,238,0.10);
-  transform: translateZ(0);
-}
-.theme-light a[href*="#contact"]:hover,
-.theme-light button[class*="bg-cyan-500"]:hover {
-  filter: brightness(1.02);
-  box-shadow:
-    0 14px 32px rgba(34, 211, 238, 0.46),
-    0 0 0 8px rgba(34,211,238,0.12);
-}
-
-/* 8) Hero Automation Overview panel: lighten frame/shadow in light theme */
-.theme-light #hero .rounded-3xl {
-  background: #ffffff !important;
-  border: 1px solid rgba(9,14,22,0.08) !important;
-  box-shadow: 0 22px 46px -24px rgba(9,14,22,0.25) !important;
-}
-
-/* 9) Footer logo legibility on white */
-.theme-light footer img {
-  filter: drop-shadow(0 3px 10px rgba(14,165,233,0.35));
-}
-/* =========================
-   Logo shadow fix for light theme
-   ========================= */
-
-/* Apply to all logo <img> and inline <svg> inside the light theme */
-.theme-light img[alt*="CYD"],
-.theme-light svg[aria-label*="CYD"],
-.theme-light picture img[alt*="CYD"] {
-  filter: drop-shadow(0 2px 3px rgba(0,0,0,0.6));
-}
-/* ===========================================
-   Stronger logo shadows + badge cleanup
-   =========================================== */
-
-/* 2.5x stronger black drop-shadow on all CYD logos (img + inline svg) */
-.theme-light img[alt*="CYD"],
-.theme-light picture img[alt*="CYD"],
-.theme-light svg[aria-label*="CYD"] {
-  /* was ~0 2px 3px 0.6 — make it much stronger */
-  filter: drop-shadow(0 6px 14px rgba(0,0,0,0.8));
-}
-
-/* Remove any white/transparent "badge" box around the header & footer logos */
+/* Logos: strong black shadow everywhere + remove any white "badge" -------- */
 .theme-light header picture,
 .theme-light header picture::before,
 .theme-light header picture::after,
@@ -306,53 +104,107 @@
   box-shadow: none !important;
 }
 
-/* If a class-based white badge slipped in (e.g., bg-white/90 or bg-white/5), force it off around the logo in light mode */
+/* 2.5x stronger pop for all brand marks (header badge, hero, footer, tiles) */
+.theme-light img[alt*="CYD"],
+.theme-light picture img[alt*="CYD"],
+.theme-light img[src*="logo"],
+.theme-light img[src*="icon"],
+.theme-light svg[aria-label*="CYD"],
+.theme-light svg[role="img"] {
+  filter: drop-shadow(0 6px 14px rgba(0,0,0,0.85)) !important;
+}
+
+/* If any wrapper around the header/hero logos still paints a white box,
+   neutralize it (common Tailwind utility patterns): */
+.theme-light header .bg-white,
 .theme-light header .bg-white\/90,
-.theme-light header .bg-white\/5,
+.theme-light header .bg-white\/80,
+.theme-light header .bg-white\/70,
+.theme-light footer .bg-white,
 .theme-light footer .bg-white\/90,
-.theme-light footer .bg-white\/5 {
+.theme-light footer .bg-white\/80,
+.theme-light footer .bg-white\/70 {
   background: transparent !important;
-  box-shadow: none !important;
   border-color: transparent !important;
+  box-shadow: none !important;
 }
 
-/* ===========================================
-   Case studies captions: make the gray bars white
-   =========================================== */
-
-/* The caption strip under each case tile can come from a neutral overlay;
-   force it to white with a light border + subtle shadow */
-.theme-light [class*="bg-neutral-900\/80"],
-.theme-light [class*="bg-neutral-900\/70"],
-.theme-light [class*="bg-neutral-800\/80"],
-.theme-light [class*="bg-neutral-700\/80"] {
-  background: #ffffff !important;
-  color: #0b0f14 !important;
-  border-color: rgba(10,15,20,0.08) !important;          /* subtle border */
-  box-shadow: 0 10px 30px -12px rgba(10,15,20,0.12) !important; /* soft lift */
+/* Accent: keep neon cyan as your brand highlight -------------------------- */
+.theme-light .from-cyan-300,
+.theme-light .via-cyan-400,
+.theme-light .to-sky-500,
+.theme-light .text-cyan-300,
+.theme-light .text-cyan-400,
+.theme-light .text-cyan-500,
+.theme-light .border-cyan-400\/30,
+.theme-light .bg-cyan-500\/10 {
+  /* present to prevent neutral overrides */
 }
 
-/* ===========================================
-   Make “Need something custom?” and “Share yours →”
-   look like pill buttons (same family as ‘Work with us’)
-   =========================================== */
-
-/* Try to catch them by href or copy; tweak selectors as needed in your codebase */
+/* Buttons & chips --------------------------------------------------------- */
+/* Pill look for little inline links so they match your big CTAs */
 .theme-light a[href*="custom"],
 .theme-light a[href*="share"] {
   display: inline-block;
   padding: 6px 12px;
   border-radius: 9999px;
-  background: rgba(56, 189, 248, 0.10);       /* soft cyan wash */
-  color: #0369a1 !important;                  /* deep cyan text */
-  box-shadow: 0 8px 20px -8px rgba(56, 189, 248, 0.35);
-  border: 1px solid rgba(56, 189, 248, 0.35);
+  background: rgba(56,189,248,0.12);
+  color: #0369a1 !important;
+  border: 1px solid rgba(56,189,248,0.38);
+  box-shadow: 0 12px 28px -12px rgba(56,189,248,0.45);
   text-decoration: none !important;
   transition: transform .15s ease, box-shadow .2s ease, background .2s ease;
 }
 .theme-light a[href*="custom"]:hover,
 .theme-light a[href*="share"]:hover {
-  background: rgba(56, 189, 248, 0.18);
-  box-shadow: 0 14px 30px -10px rgba(56, 189, 248, 0.45);
+  background: rgba(56,189,248,0.18);
+  box-shadow: 0 18px 34px -14px rgba(56,189,248,0.55);
   transform: translateY(-1px);
+}
+
+/* Ensure primary CTAs (e.g., Work with us / Send request) stay neon blue */
+.theme-light a[href*="work"],
+.theme-light a[href*="contact"],
+.theme-light button[type="submit"],
+.theme-light button[data-cta],
+.theme-light .btn-primary {
+  background: #06b6d4 !important;          /* cyan-500 */
+  color: #001018 !important;
+  border: 1px solid rgba(56,189,248,0.45) !important;
+  box-shadow: 0 18px 40px -14px rgba(56,189,248,0.55) !important;
+}
+.theme-light a[href*="work"]:hover,
+.theme-light a[href*="contact"]:hover,
+.theme-light button[type="submit"]:hover,
+.theme-light button[data-cta]:hover,
+.theme-light .btn-primary:hover {
+  background: #22d3ee !important;          /* cyan-400 */
+  box-shadow: 0 24px 48px -16px rgba(56,189,248,0.62) !important;
+  transform: translateY(-1px);
+}
+
+/* Navigation: remove any dark glass bar that remained --------------------- */
+.theme-light header,
+.theme-light header [class*="bg-neutral-"],
+.theme-light header .backdrop-blur,
+.theme-light .sticky.top-0 {
+  background: #ffffff !important;
+  backdrop-filter: none !important;
+  border-bottom: 1px solid rgba(10,15,20,0.06) !important;
+  box-shadow: none !important;
+}
+
+/* Footer readability on white -------------------------------------------- */
+.theme-light footer,
+.theme-light footer * {
+  color: #2a3340 !important;
+}
+
+/* Safety net: anything still using dark neutral background becomes white -- */
+.theme-light [class*="bg-neutral-"],
+.theme-light [style*="background-color: rgb(2"], /* catches some inline darks */
+.theme-light [style*="background-color:#0"],
+.theme-light [style*="background: rgb(2"],
+.theme-light [style*="background:#0"] {
+  background: #ffffff !important;
 }
