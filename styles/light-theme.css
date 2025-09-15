@@ -92,16 +92,23 @@
   box-shadow: 0 10px 30px -12px rgba(10,15,20,0.12) !important;
 }
 
-/* Logos: strong black shadow everywhere + remove any white "badge" -------- */
-.theme-light header picture,
-.theme-light header picture::before,
-.theme-light header picture::after,
-.theme-light footer picture,
-.theme-light footer picture::before,
-.theme-light footer picture::after {
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
+/* Logos with differentiated shadows ------------------------------------- */
+
+/* Header + Footer logos (moderate strong shadow) */
+.theme-light header img[alt*="CYD"],
+.theme-light header picture img,
+.theme-light footer img[alt*="CYD"],
+.theme-light footer picture img,
+.theme-light header svg[aria-label*="CYD"],
+.theme-light footer svg[aria-label*="CYD"] {
+  filter: drop-shadow(0 8px 18px rgba(0,0,0,0.95)) !important; /* 2x */
+}
+
+/* Hero / inline div logos (smaller logos → much heavier shadow) */
+.theme-light main img[alt*="CYD"],
+.theme-light main picture img,
+.theme-light main svg[aria-label*="CYD"] {
+  filter: drop-shadow(0 10px 26px rgba(0,0,0,1)) !important; /* 4x */
 }
 
 /* 2.5x stronger pop for all brand marks (header badge, hero, footer, tiles) */
