@@ -168,4 +168,107 @@
 .theme-light footer img {
   filter: drop-shadow(0 0 6px rgba(0, 200, 255, 0.7));
 }
+/* =========================
+   Light theme refinements
+   Make hero/nav/case cards stand out + neon CTA
+   ========================= */
 
+/* 1) Navbar: crisp white w/ soft divider + elevation */
+.theme-light header.sticky {
+  background: rgba(255,255,255,0.96) !important;
+  backdrop-filter: saturate(1.05) blur(2px);
+  box-shadow: 0 6px 20px -12px rgba(9, 14, 22, 0.18);
+  border-bottom: 1px solid rgba(9, 14, 22, 0.06);
+}
+
+/* 2) CYD logo (both in navbar and hero badge): add subtle cyan glow so it’s visible on white */
+.theme-light header img,
+.theme-light #hero picture img {
+  filter: drop-shadow(0 4px 14px rgba(14, 165, 233, 0.35));
+}
+
+/* 3) Hero “brand pill” (logo + CHASE YOUR DREAMS) — lift it from the page */
+.theme-light #hero .inline-flex.items-center.gap-4 {
+  background: #fff;
+  border: 1px solid rgba(9,14,22,0.06);
+  border-radius: 16px;
+  padding: 10px 14px;
+  box-shadow:
+    0 14px 30px -18px rgba(9,14,22,0.22),
+    0 0 0 6px rgba(14,165,233,0.06);
+}
+
+/* 4) Page aura: a gentle cyan vignette so top doesn’t feel flat-white */
+.theme-light body::before {
+  content: "";
+  position: fixed;
+  inset: -20% -10% 50% -10%;
+  pointer-events: none;
+  background:
+    radial-gradient(50% 40% at 75% 10%, rgba(14,165,233,0.12) 0%, rgba(14,165,233,0) 60%),
+    radial-gradient(30% 30% at 10% 8%, rgba(56,189,248,0.10) 0%, rgba(56,189,248,0) 60%);
+  z-index: 0;
+}
+
+/* 5) Case studies — make the whole card white and remove gray overlays */
+.theme-light .case-studies-grid > * {
+  background: #ffffff !important;
+  border: 1px solid rgba(9,14,22,0.08) !important;
+  box-shadow: 0 18px 40px -22px rgba(9,14,22,0.22);
+}
+
+/* In case the cards don’t have a wrapper class, force common dark overlays to white */
+.theme-light [class*="bg-neutral-900/"],
+.theme-light [class*="bg-neutral-800/"],
+.theme-light [class*="bg-black/40"],
+.theme-light [class*="bg-black/50"],
+.theme-light [class*="bg-black/60"] {
+  background: #ffffff !important;
+}
+
+/* captions on the case cards */
+.theme-light .case-studies-grid [class*="rounded"][class*="border"][class*="p-"] {
+  background: #ffffff !important;
+  border-color: rgba(9,14,22,0.08) !important;
+}
+
+/* 6) Metric blocks / “How it works” steps: ensure white cards on white page */
+.theme-light .bg-white\/5,
+.theme-light .bg-black\/5,
+.theme-light .bg-neutral-800\/60,
+.theme-light .bg-neutral-900\/60 {
+  background: #ffffff !important;
+  border: 1px solid rgba(9,14,22,0.08) !important;
+  box-shadow: 0 16px 34px -22px rgba(9,14,22,0.18);
+}
+
+/* 7) “Work with us” = neon cyan pill (blue as before), readable on white */
+.theme-light a[href*="#contact"],
+.theme-light button[class*="bg-cyan-500"] {
+  background: linear-gradient(180deg, #22d3ee 0%, #06b6d4 100%) !important; /* neon cyan */
+  color: #051017 !important;
+  border: 0 !important;
+  box-shadow:
+    0 10px 26px rgba(34, 211, 238, 0.35),
+    0 0 0 6px rgba(34,211,238,0.10);
+  transform: translateZ(0);
+}
+.theme-light a[href*="#contact"]:hover,
+.theme-light button[class*="bg-cyan-500"]:hover {
+  filter: brightness(1.02);
+  box-shadow:
+    0 14px 32px rgba(34, 211, 238, 0.46),
+    0 0 0 8px rgba(34,211,238,0.12);
+}
+
+/* 8) Hero Automation Overview panel: lighten frame/shadow in light theme */
+.theme-light #hero .rounded-3xl {
+  background: #ffffff !important;
+  border: 1px solid rgba(9,14,22,0.08) !important;
+  box-shadow: 0 22px 46px -24px rgba(9,14,22,0.25) !important;
+}
+
+/* 9) Footer logo legibility on white */
+.theme-light footer img {
+  filter: drop-shadow(0 3px 10px rgba(14,165,233,0.35));
+}
