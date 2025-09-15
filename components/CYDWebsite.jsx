@@ -124,7 +124,7 @@ export default function CYDWebsite() {
 
           {/* Demo panel */}
           <motion.div
-           {/* Demo panel (Automation Overview) */}
+          {/* Demo panel (Automation Overview) */}
 <motion.div
   initial={{ opacity: 0, y: 20 }}
   whileInView={{ opacity: 1, y: 0 }}
