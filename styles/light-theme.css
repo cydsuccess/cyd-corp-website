@@ -282,3 +282,77 @@
 .theme-light picture img[alt*="CYD"] {
   filter: drop-shadow(0 2px 3px rgba(0,0,0,0.6));
 }
+/* ===========================================
+   Stronger logo shadows + badge cleanup
+   =========================================== */
+
+/* 2.5x stronger black drop-shadow on all CYD logos (img + inline svg) */
+.theme-light img[alt*="CYD"],
+.theme-light picture img[alt*="CYD"],
+.theme-light svg[aria-label*="CYD"] {
+  /* was ~0 2px 3px 0.6 — make it much stronger */
+  filter: drop-shadow(0 6px 14px rgba(0,0,0,0.8));
+}
+
+/* Remove any white/transparent "badge" box around the header & footer logos */
+.theme-light header picture,
+.theme-light header picture::before,
+.theme-light header picture::after,
+.theme-light footer picture,
+.theme-light footer picture::before,
+.theme-light footer picture::after {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* If a class-based white badge slipped in (e.g., bg-white/90 or bg-white/5), force it off around the logo in light mode */
+.theme-light header .bg-white\/90,
+.theme-light header .bg-white\/5,
+.theme-light footer .bg-white\/90,
+.theme-light footer .bg-white\/5 {
+  background: transparent !important;
+  box-shadow: none !important;
+  border-color: transparent !important;
+}
+
+/* ===========================================
+   Case studies captions: make the gray bars white
+   =========================================== */
+
+/* The caption strip under each case tile can come from a neutral overlay;
+   force it to white with a light border + subtle shadow */
+.theme-light [class*="bg-neutral-900\/80"],
+.theme-light [class*="bg-neutral-900\/70"],
+.theme-light [class*="bg-neutral-800\/80"],
+.theme-light [class*="bg-neutral-700\/80"] {
+  background: #ffffff !important;
+  color: #0b0f14 !important;
+  border-color: rgba(10,15,20,0.08) !important;          /* subtle border */
+  box-shadow: 0 10px 30px -12px rgba(10,15,20,0.12) !important; /* soft lift */
+}
+
+/* ===========================================
+   Make “Need something custom?” and “Share yours →”
+   look like pill buttons (same family as ‘Work with us’)
+   =========================================== */
+
+/* Try to catch them by href or copy; tweak selectors as needed in your codebase */
+.theme-light a[href*="custom"],
+.theme-light a[href*="share"] {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 9999px;
+  background: rgba(56, 189, 248, 0.10);       /* soft cyan wash */
+  color: #0369a1 !important;                  /* deep cyan text */
+  box-shadow: 0 8px 20px -8px rgba(56, 189, 248, 0.35);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  text-decoration: none !important;
+  transition: transform .15s ease, box-shadow .2s ease, background .2s ease;
+}
+.theme-light a[href*="custom"]:hover,
+.theme-light a[href*="share"]:hover {
+  background: rgba(56, 189, 248, 0.18);
+  box-shadow: 0 14px 30px -10px rgba(56, 189, 248, 0.45);
+  transform: translateY(-1px);
+}
