@@ -130,6 +130,7 @@ export default function CYDWebsite() {
             className="relative"
           >
             <div className="rounded-3xl border border-white/10 bg-white/5 p-4 shadow-2xl">
+              <div className="ao-panel rounded-3xl border border-white/10 bg-white/5 p-4 shadow-2xl">
               <div className="rounded-2xl border border-white/10 bg-neutral-900 p-6">
                 <div className="mb-4 flex items-center justify-between">
                   <div className="text-sm font-semibold text-neutral-300">Automation Overview</div>
