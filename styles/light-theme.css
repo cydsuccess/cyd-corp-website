@@ -1,26 +1,20 @@
-/* ==========================================================================
-   Light Theme (hard overrides)
-   - Apply by adding class "theme-light" on <body> (already in _document.js).
-   - Design system: White canvas (#fff), near-black text (#0b0f14),
-     neon-cyan accents (Tailwind cyan-300/400/500 family).
-   - This file uses aggressive selectors + !important to win over Tailwind
-     dark styles and arbitrary bg utilities that were baked into components.
-   ========================================================================== */
+/* styles/light-theme.css
+   Light theme overrides for CYD Corp
+   White background, black text, neon blue accents, consistent shadows
+*/
 
-/* Base canvas and type ---------------------------------------------------- */
+/* Base page */
 .theme-light,
 .theme-light html,
 .theme-light body {
   background: #ffffff !important;
-  color: #0b0f14 !important;
+  color: #0b0f14 !important; /* near-black */
 }
 
-/* Make every "neutral text" variant readable on white */
-.theme-light .text-neutral-50,
+/* Neutral text tweaks */
 .theme-light .text-neutral-100,
 .theme-light .text-neutral-200,
-.theme-light .text-neutral-300,
-.theme-light .text-white {
+.theme-light .text-neutral-300 {
   color: #0b0f14 !important;
 }
 .theme-light .text-neutral-400,
@@ -28,190 +22,105 @@
   color: #2a3340 !important;
 }
 .theme-light .text-neutral-600,
-.theme-light .text-neutral-700,
-.theme-light .text-neutral-800 {
+.theme-light .text-neutral-700 {
   color: #374151 !important;
 }
 
-/* Kill dark radial/global backdrops (the smoky/gray layers) --------------- */
-.theme-light .pointer-events-none.fixed.inset-0[aria-hidden],
-.theme-light .pointer-events-none.absolute[aria-hidden] {
-  display: none !important;
+/* Flip neutral backgrounds to white */
+.theme-light .bg-neutral-900,
+.theme-light .bg-neutral-950 {
+  background-color: #ffffff !important;
 }
 
-/* Neutral backgrounds -> white ------------------------------------------- */
-.theme-light [class*="bg-neutral-9"],
-.theme-light [class*="bg-neutral-8"],
-.theme-light .bg-black\/5,
-.theme-light .bg-black\/10,
+/* Kill gray blocks */
+.theme-light section,
 .theme-light .bg-white\/5,
-.theme-light .bg-white\/10,
-.theme-light .bg-neutral-900\/60,
-.theme-light .bg-neutral-900\/80,
+.theme-light .bg-black\/5,
 .theme-light .bg-neutral-800\/60,
-.theme-light .bg-neutral-800\/80 {
-  background-color: #ffffff !important;
+.theme-light .bg-neutral-900\/60 {
+  background: #ffffff !important;
   backdrop-filter: none !important;
 }
 
-/* Card chrome: subtle border + soft lift (replaces dark shadows) ---------- */
+/* Borders subtle */
 .theme-light .border-white\/5,
 .theme-light .border-white\/10,
 .theme-light .border-neutral-800,
-.theme-light .border-neutral-900,
-.theme-light [class*="border-neutral-9"],
-.theme-light [class*="border-neutral-8"] {
-  border-color: rgba(10,15,20,0.08) !important;
+.theme-light .border-neutral-900 {
+  border-color: rgba(10, 15, 20, 0.08) !important;
 }
+
+/* Light card shadows */
 .theme-light .shadow,
-.theme-light .shadow-md,
 .theme-light .shadow-lg,
-.theme-light .shadow-xl,
 .theme-light .shadow-\[0_10px_30px_-10px_rgba\(0,0,0,0\.6\)\] {
-  box-shadow: 0 10px 30px -12px rgba(10,15,20,0.16) !important;
+  box-shadow: 0 10px 30px -12px rgba(10,15,20,0.18) !important;
 }
 
-/* Automation Overview panel: ensure light style holds --------------------- */
-.theme-light .ao-card,
-.theme-light [data-ao],
-.theme-light .rounded-3xl.border {
-  background: #ffffff !important;
-  border-color: rgba(10,15,20,0.08) !important;
-  box-shadow: 0 10px 30px -12px rgba(10,15,20,0.16) !important;
-}
-
-/* Case Studies: force caption bars to white (no gray strips) -------------- */
-.theme-light .case-caption,
-.theme-light [class*="bg-neutral-900\/80"],
-.theme-light [class*="bg-neutral-900\/70"],
-.theme-light [class*="bg-neutral-800\/80"],
-.theme-light [class*="bg-neutral-700\/80"] {
-  background: #ffffff !important;
-  color: #0b0f14 !important;
-  border-color: rgba(10,15,20,0.08) !important;
-  box-shadow: 0 10px 30px -12px rgba(10,15,20,0.12) !important;
-}
-
-/* Logos with differentiated shadows ------------------------------------- */
-
-/* Header + Footer logos (moderate strong shadow) */
-.theme-light header img[alt*="CYD"],
-.theme-light header picture img,
-.theme-light footer img[alt*="CYD"],
-.theme-light footer picture img,
-.theme-light header svg[aria-label*="CYD"],
-.theme-light footer svg[aria-label*="CYD"] {
-  filter: drop-shadow(0 8px 18px rgba(0,0,0,0.95)) !important; /* 2x */
-}
-
-/* Hero / inline div logos (smaller logos → much heavier shadow) */
-.theme-light main img[alt*="CYD"],
-.theme-light main picture img,
-.theme-light main svg[aria-label*="CYD"] {
-  filter: drop-shadow(0 10px 26px rgba(0,0,0,1)) !important; /* 4x */
-}
-
-/* 2.5x stronger pop for all brand marks (header badge, hero, footer, tiles) */
-.theme-light img[alt*="CYD"],
-.theme-light picture img[alt*="CYD"],
-.theme-light img[src*="logo"],
-.theme-light img[src*="icon"],
-.theme-light svg[aria-label*="CYD"],
-.theme-light svg[role="img"] {
-  filter: drop-shadow(0 6px 14px rgba(0,0,0,0.85)) !important;
-}
-
-/* If any wrapper around the header/hero logos still paints a white box,
-   neutralize it (common Tailwind utility patterns): */
-.theme-light header .bg-white,
-.theme-light header .bg-white\/90,
-.theme-light header .bg-white\/80,
-.theme-light header .bg-white\/70,
-.theme-light footer .bg-white,
-.theme-light footer .bg-white\/90,
-.theme-light footer .bg-white\/80,
-.theme-light footer .bg-white\/70 {
-  background: transparent !important;
-  border-color: transparent !important;
-  box-shadow: none !important;
-}
-
-/* Accent: keep neon cyan as your brand highlight -------------------------- */
+/* Neon cyan accents remain */
 .theme-light .from-cyan-300,
 .theme-light .via-cyan-400,
 .theme-light .to-sky-500,
 .theme-light .text-cyan-300,
 .theme-light .text-cyan-400,
-.theme-light .text-cyan-500,
-.theme-light .border-cyan-400\/30,
-.theme-light .bg-cyan-500\/10 {
-  /* present to prevent neutral overrides */
+.theme-light .bg-cyan-500\/10,
+.theme-light .border-cyan-400\/30 {
+  /* keep neon cyan */
 }
 
-/* Buttons & chips --------------------------------------------------------- */
-/* Pill look for little inline links so they match your big CTAs */
-.theme-light a[href*="custom"],
-.theme-light a[href*="share"] {
-  display: inline-block;
-  padding: 6px 12px;
-  border-radius: 9999px;
-  background: rgba(56,189,248,0.12);
-  color: #0369a1 !important;
-  border: 1px solid rgba(56,189,248,0.38);
-  box-shadow: 0 12px 28px -12px rgba(56,189,248,0.45);
-  text-decoration: none !important;
-  transition: transform .15s ease, box-shadow .2s ease, background .2s ease;
-}
-.theme-light a[href*="custom"]:hover,
-.theme-light a[href*="share"]:hover {
-  background: rgba(56,189,248,0.18);
-  box-shadow: 0 18px 34px -14px rgba(56,189,248,0.55);
-  transform: translateY(-1px);
+/* Remove dark radial background */
+.theme-light .pointer-events-none.fixed.inset-0[aria-hidden] {
+  display: none !important;
 }
 
-/* Ensure primary CTAs (e.g., Work with us / Send request) stay neon blue */
-.theme-light a[href*="work"],
-.theme-light a[href*="contact"],
-.theme-light button[type="submit"],
-.theme-light button[data-cta],
-.theme-light .btn-primary {
-  background: #06b6d4 !important;          /* cyan-500 */
-  color: #001018 !important;
-  border: 1px solid rgba(56,189,248,0.45) !important;
-  box-shadow: 0 18px 40px -14px rgba(56,189,248,0.55) !important;
-}
-.theme-light a[href*="work"]:hover,
-.theme-light a[href*="contact"]:hover,
-.theme-light button[type="submit"]:hover,
-.theme-light button[data-cta]:hover,
-.theme-light .btn-primary:hover {
-  background: #22d3ee !important;          /* cyan-400 */
-  box-shadow: 0 24px 48px -16px rgba(56,189,248,0.62) !important;
-  transform: translateY(-1px);
+/* Navbar hover */
+.theme-light .bg-white\/5:hover {
+  background: rgba(0,0,0,0.04) !important;
 }
 
-/* Navigation: remove any dark glass bar that remained --------------------- */
-.theme-light header,
-.theme-light header [class*="bg-neutral-"],
-.theme-light header .backdrop-blur,
-.theme-light .sticky.top-0 {
-  background: #ffffff !important;
-  backdrop-filter: none !important;
-  border-bottom: 1px solid rgba(10,15,20,0.06) !important;
-  box-shadow: none !important;
-}
-
-/* Footer readability on white -------------------------------------------- */
-.theme-light footer,
+/* Footer readability */
+.theme-light footer, 
 .theme-light footer * {
   color: #2a3340 !important;
 }
 
-/* Safety net: anything still using dark neutral background becomes white -- */
-.theme-light [class*="bg-neutral-"],
-.theme-light [style*="background-color: rgb(2"], /* catches some inline darks */
-.theme-light [style*="background-color:#0"],
-.theme-light [style*="background: rgb(2"],
-.theme-light [style*="background:#0"] {
-  background: #ffffff !important;
+/* ---------------- Logos with shadows ---------------- */
+
+/* Header + Footer logos → 2× shadow */
+.theme-light header img[alt*="CYD"],
+.theme-light footer img[alt*="CYD"],
+.theme-light header svg[aria-label*="CYD"],
+.theme-light footer svg[aria-label*="CYD"] {
+  filter: drop-shadow(0 0 14px rgba(0,0,0,0.55)) !important;
+}
+
+/* Hero/inline div logos → 4× shadow */
+.theme-light main img[alt*="CYD"],
+.theme-light main svg[aria-label*="CYD"] {
+  filter: drop-shadow(0 0 24px rgba(0,0,0,0.7)) !important;
+}
+
+/* ---------------- Buttons rounded ---------------- */
+
+/* Work with us, Send request (already rounded in Tailwind) keep as-is */
+
+/* Add rounded pill style to others */
+.theme-light a[href*="custom"],
+.theme-light a[href*="share"],
+.theme-light a[href*="contact"],
+.theme-light .btn-custom,
+.theme-light .btn-share,
+.theme-light .btn-contact {
+  border-radius: 9999px !important; /* full pill */
+  padding: 0.5rem 1.25rem !important;
+  background: #0ef !important; /* neon cyan */
+  color: #0b0f14 !important;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+.theme-light a[href*="custom"]:hover,
+.theme-light a[href*="share"]:hover,
+.theme-light a[href*="contact"]:hover {
+  background: #00c4ff !important;
+  color: #fff !important;
 }
