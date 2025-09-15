@@ -40,7 +40,7 @@ export default function Document() {
   <meta name="twitter:image" content="https://cyd-corp.com/og.jpg" />
   <script defer src="/cyd-enhance.js"></script>
 </Head>
-      <body className="theme-light bg-neutral-950">
+      <body className="theme-light">
         <Main />
         <NextScript />
       </body>
