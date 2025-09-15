@@ -122,8 +122,6 @@ export default function CYDWebsite() {
             <p className="mt-4 text-xs uppercase tracking-widest text-neutral-400">Knowledge + Experience = CYD Foundation</p>
           </motion.div>
 
-          {/* Demo panel */}
-          <motion.div
           {/* Demo panel (Automation Overview) */}
 <motion.div
   initial={{ opacity: 0, y: 20 }}
