@@ -128,3 +128,44 @@
 /* Make hero CYD mark readable on white even when very light */
 .theme-light .rounded-2xl.border,
 .theme-light .rounded-2xl.bg-white\/5 { background:#fff !important; }
+/* existing overrides here... */
+
+/* ------------------------- */
+/* NEW FIXES: white bg + logo shadow */
+/* ------------------------- */
+
+/* Force all dark/grey containers to white in light theme */
+.theme-light .bg-neutral-900,
+.theme-light .bg-neutral-950,
+.theme-light .bg-white\/5,
+.theme-light .bg-black\/5,
+.theme-light .bg-neutral-800\/60,
+.theme-light .bg-neutral-900\/60 {
+  background-color: #ffffff !important;
+  background: #ffffff !important;
+  backdrop-filter: none !important;
+  box-shadow: none !important;
+  border: 1px solid rgba(0,0,0,0.06) !important; /* subtle border instead of grey */
+}
+
+/* Card sections (How it works, Case studies, etc.) */
+.theme-light section,
+.theme-light .rounded-3xl,
+.theme-light .rounded-2xl {
+  background: #ffffff !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06) !important;
+}
+
+/* Make sure case study images sit on white */
+.theme-light .case-study,
+.theme-light .case-study img {
+  background: #ffffff !important;
+}
+
+/* Logo visibility fix (header + footer logos) */
+.theme-light img[alt="CYD"],
+.theme-light picture img,
+.theme-light footer img {
+  filter: drop-shadow(0 0 6px rgba(0, 200, 255, 0.7));
+}
+
